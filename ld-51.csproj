@@ -1,6 +1,13 @@
 <Project Sdk="Godot.NET.Sdk/3.3.0">
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
+	  <LangVersion>LatestMajor</LangVersion>
     <RootNamespace>ld51</RootNamespace>
   </PropertyGroup>
+	<ItemGroup>
+		<Content Remove="stuff\**" />
+		<Compile Remove="stuff\**" />
+		<EmbeddedResource Remove="stuff\**" />
+		<None Remove="stuff\**" />
+	</ItemGroup>
 </Project>

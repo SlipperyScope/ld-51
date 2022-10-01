@@ -14,9 +14,24 @@ config/name="ld-51"
 run/main_scene="res://game/Game.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[layer_names]
+
+2d_physics/layer_1="Everything"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Arrow"
+2d_physics/layer_4="Apple"
+2d_physics/layer_5="Wall"
 
 [mono]
 
@@ -24,6 +39,7 @@ project/assembly_name="ld-51"
 
 [physics]
 
+common/physics_fps=90
 common/enable_pause_aware_picking=true
 
 [rendering]
