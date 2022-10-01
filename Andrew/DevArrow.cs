@@ -1,8 +1,14 @@
 using Godot;
 using System;
 
+//TODO: change to kinematic because godot physics sucks
 public class DevArrow : RigidBody2D
 {
+    public override void _EnterTree()
+    {
+        Connect("body_entered", this, nameof(OnBodyEntered));
+    }
+
     public override void _Ready()
     {
         ApplyCentralImpulse(Transform.x * 5000f);
@@ -20,5 +26,39 @@ public class DevArrow : RigidBody2D
 
 
         base._IntegrateForces(state);
+    }
+
+    private void OnBodyEntered(PhysicsBody2D body)
+    {
+        if (LinearVelocity.Length() < 100f)
+        {
+            CallDeferred(nameof(DisablePhysics));
+            // wiggle or something? 
+        }
+
+        switch (body)
+        {
+            case DevApple apple:
+                CallDeferred(nameof(DisablePhysics));
+                apple.AddDecal(GetNode<Sprite>("Sprite"));
+                //apple.ApplyImpulse(GlobalPosition - apple.GlobalPosition, LinearVelocity * Mass / apple.Mass);
+                //apple.Bonk(GlobalPosition, LinearVelocity * Mass);
+                //apple.CallDeferred(nameof(apple.Bonk), GlobalPosition, LinearVelocity * Mass);
+                apple.Bonk();
+                QueueFree();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void DisablePhysics()
+    {
+        Mode = ModeEnum.Kinematic;
+        CollisionLayer = 0;
+        CollisionMask = 0;
+        ContactMonitor = false;
+        CustomIntegrator = true;
     }
 }
