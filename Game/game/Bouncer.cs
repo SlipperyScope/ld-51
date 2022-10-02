@@ -9,6 +9,16 @@ namespace ld51.game
 {
     public class Bouncer : StaticBody2D
     {
+        private AudioStreamPlayer SFX;
 
+        public override void _Ready()
+        {
+            SFX = GetNode<AudioStreamPlayer>("SFX");
+        }
+
+        public void Bounce()
+        {
+            SFX.Play();
+        }
     }
 }

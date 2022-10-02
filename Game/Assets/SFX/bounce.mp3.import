@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bounce.mp3-33b761ee79bc6acc81a80ebde5c849f6.mp3str"
+
+[deps]
+
+source_file="res://Assets/SFX/bounce.mp3"
+dest_files=[ "res://.import/bounce.mp3-33b761ee79bc6acc81a80ebde5c849f6.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

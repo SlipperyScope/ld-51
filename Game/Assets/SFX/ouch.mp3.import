@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ouch.mp3-90ba9c97e128757183093972d4fb5183.mp3str"
+
+[deps]
+
+source_file="res://Assets/SFX/ouch.mp3"
+dest_files=[ "res://.import/ouch.mp3-90ba9c97e128757183093972d4fb5183.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

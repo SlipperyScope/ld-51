@@ -17,11 +17,13 @@ namespace ld51.game
 
         private RigidBody2D Hood;
         private RigidBody2D Rob;
+        private AudioStreamPlayer SFX;
 
         public override void _Ready()
         {
             Hood = GetNode<RigidBody2D>("Hood");
             Rob = GetNode<RigidBody2D>("Rob");
+            SFX = GetNode<AudioStreamPlayer>("SFX");
         }
 
         public override void _Process(Single delta)
@@ -63,6 +65,7 @@ namespace ld51.game
             GetTree().Root.AddChild(arrow);
             arrow.GlobalTransform = trans;
             arrow.Velocity = trans.x * 1400f;
+            SFX.Play();
         }
     }
 }

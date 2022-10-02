@@ -16,6 +16,7 @@ namespace ld51.game
 
         public void Touch(Vector2 at)
         {
+            GetNode<AudioStreamPlayer>("SFX").Play();
             GD.Print("Congradulations, you did it. Hooray.");
         }
     }

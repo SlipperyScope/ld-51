@@ -44,6 +44,7 @@ namespace ld51.game
                 case Bouncer bouncer:
                     Velocity = Velocity.Bounce(collision.Normal);
                     Move(collision.Remainder);
+                    bouncer.Bounce();
                     break;
 
                 case Prop prop:
@@ -58,7 +59,7 @@ namespace ld51.game
                     break;
 
                 case Rob rob:
-                    if (SpawnTime + 1000f < Time.GetTicksMsec())
+                    if (SpawnTime + 100f < Time.GetTicksMsec())
                     {
                         Enabled = false;
                         var sprite = GetNode<Sprite>("Sprite");

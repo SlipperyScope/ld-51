@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bow.mp3-8782b30597aedead388c4170a1b95d21.mp3str"
+
+[deps]
+
+source_file="res://Assets/SFX/bow.mp3"
+dest_files=[ "res://.import/bow.mp3-8782b30597aedead388c4170a1b95d21.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

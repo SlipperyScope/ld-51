@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/impact.mp3-62dd708fccd6ab8b6076282d9e0c339d.mp3str"
+
+[deps]
+
+source_file="res://Assets/SFX/impact.mp3"
+dest_files=[ "res://.import/impact.mp3-62dd708fccd6ab8b6076282d9e0c339d.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

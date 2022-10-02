@@ -9,9 +9,16 @@ namespace ld51.game
 {
     public class Rob : RigidBody2D, IGoal
     {
+        private AudioStreamPlayer SFX;
+        public override void _Ready()
+        {
+            SFX = GetNode<AudioStreamPlayer>("SFX");
+
+        }
         public void Touch(Vector2 at)
         {
             CallDeferred(nameof(MakeRigid));
+            SFX.Play();
         }
 
         private void MakeRigid() => Mode = ModeEnum.Rigid;

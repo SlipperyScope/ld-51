@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/dang.mp3-7f718dcd2f3cb22bfc9f6baf12dd5656.mp3str"
+
+[deps]
+
+source_file="res://Assets/SFX/dang.mp3"
+dest_files=[ "res://.import/dang.mp3-7f718dcd2f3cb22bfc9f6baf12dd5656.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
