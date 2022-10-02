@@ -8,6 +8,7 @@ public class Global : Node
     public static int level = 0;
     public static float timeRemaining = 0;
     public static int arrowsShottened = 0;
+    public static bool paused = true;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -17,7 +18,7 @@ public class Global : Node
 
     public static void Win() {
         if (game != null) {
-            game.NextLevel();
+            game.NextLevel(true);
         } else {
             throw new Exception("Tried to win a level before seting game on Global");
         }

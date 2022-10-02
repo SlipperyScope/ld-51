@@ -39,6 +39,7 @@ public class Game : Node2D
         Global.game = this;
 
         ConstructLevel();
+        Global.paused = true;
         GetNode<Button>("StartModal/StartGame").Connect("pressed", this, nameof(StartGame));
     }
 
@@ -49,6 +50,7 @@ public class Game : Node2D
 
         var scene = lvl.Instance();
         GetNode<Node2D>("LevelContainer").AddChild(scene);
+        Global.paused = false;
     }
 
     public void StartGame() {
@@ -61,6 +63,7 @@ public class Game : Node2D
         Delay(2000, () => Flash("One!"));
         Delay(3000, () => {
             Flash("Do Tell!");
+            Global.paused = false;
             currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
         });
     }
@@ -76,12 +79,19 @@ public class Game : Node2D
         GetNode<Node2D>("MessageContainer").AddChild(msg);
     }
 
-    public void NextLevel() {
+    public void NextLevel(bool success = false) {
+        if (Global.paused) return;
+
+        Global.paused = true;
         CancelTimer(currentTimer);
-        if (lvls.Count != 0) {
-            ConstructLevel();
-            currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
-        }
+
+        Flash(success ? "Nice!" : "Bummer (+5s)");
+        Delay(300, () => {
+            if (lvls.Count != 0) {
+                ConstructLevel();
+                currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
+            }
+        });
     }
 
     public TimedAction Delay(ulong ms, TimerCallback cb) {
@@ -91,6 +101,7 @@ public class Game : Node2D
     }
 
     public void CancelTimer(TimedAction timer) {
+        currentTimer = null;
         timers.Remove(timer);
     }
 
@@ -115,6 +126,8 @@ public class Game : Node2D
 
         if (currentTimer != null) {
             Global.timeRemaining = currentTimer.timeRemaining;
+        } else {
+            Global.timeRemaining = 0;
         }
     }
 }
