@@ -89,7 +89,6 @@ public class Game : Node2D
         if (Global.paused) return;
 
         Global.paused = true;
-        GD.Print(LEVEL_LENGTH, currentTimer.timeRemaining);
         Global.score += (LEVEL_LENGTH / 1000) - currentTimer.timeRemaining;
 
         if (!success) {

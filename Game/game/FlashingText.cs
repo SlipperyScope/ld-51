@@ -28,7 +28,6 @@ public class FlashingText : Control
     }
 
     private void Fadeout() {
-        GD.Print("fading out now");
         fadingOut = true;
     }
 
