@@ -51,13 +51,24 @@ namespace ld51.game
                     QueueFree();
                     break;
 
-                default:
+                case Rob rob:
                     Enabled = false;
                     var sprite = GetNode<Sprite>("Sprite");
                     var trans = sprite.GlobalTransform;
                     RemoveChild(sprite);
-                    GetParent<Node>().AddChild(sprite);
+                    rob.AddChild(sprite);
                     sprite.GlobalTransform = trans;
+                    rob.Touch(collision.Position);
+                    QueueFree();
+                    break;
+
+                default:
+                    Enabled = false;
+                    var sprite2 = GetNode<Sprite>("Sprite");
+                    var trans2 = sprite2.GlobalTransform;
+                    RemoveChild(sprite2);
+                    GetParent<Node>().AddChild(sprite2);
+                    sprite2.GlobalTransform = trans2;
                     QueueFree();
                     break;
             }

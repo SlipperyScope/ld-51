@@ -10,6 +10,9 @@ namespace ld51.game
     public class RobNHood : Node2D
     {
         [Export]
+        private PackedScene ArrowScene;
+
+        [Export]
         private Single MaxBowDistance = 500f;
 
         private RigidBody2D Hood;
@@ -37,6 +40,29 @@ namespace ld51.game
             }
 
             Hood.LookAt(Hood.GlobalPosition + dir);
+        }
+
+        public override void _Input(InputEvent e)
+        {
+            if (e.IsActionPressed("Shoot"))
+            {
+                SpawnArrow();
+            }
+        }
+
+        private void SpawnArrow()
+        {
+            if (ArrowScene is null)
+            {
+                GD.PrintErr("Arrow scene is not specified");
+                return;
+            }
+
+            var arrow = ArrowScene.Instance<Arrow>();
+            var trans = Hood.GetNode<Position2D>("Spawn").GlobalTransform;
+            GetTree().Root.AddChild(arrow);
+            arrow.GlobalTransform = trans;
+            arrow.Velocity = trans.x * 1400f;
         }
     }
 }
