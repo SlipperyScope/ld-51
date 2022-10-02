@@ -15,7 +15,7 @@ namespace ld51.game
         [Export]
         private Single MaxBowDistance = 500f;
 
-        private RigidBody2D Hood;
+        private Hood Hood;
         private Rob Rob;
         private AudioStreamPlayer SFX;
         private Timer Timer;
@@ -24,7 +24,7 @@ namespace ld51.game
 
         public override void _Ready()
         {
-            Hood = GetNode<RigidBody2D>("Hood");
+            Hood = GetNode<Hood>("Hood");
             Rob = GetNode<Rob>("Rob");
             SFX = GetNode<AudioStreamPlayer>("SFX");
             Timer = GetNode<Timer>("Timer");
@@ -55,6 +55,7 @@ namespace ld51.game
             if (Tick++ < MaxTick)
             {
                 Timer.Start();
+                Hood.SetAnim((Single)Tick / MaxTick);
             }
         }
 
@@ -74,6 +75,7 @@ namespace ld51.game
                     Rob.Dangit();
                 }
                 Tick = 0;
+                Hood.SetAnim(0f);
             }
         }
 
@@ -86,7 +88,7 @@ namespace ld51.game
             }
 
             var arrow = ArrowScene.Instance<Arrow>();
-            var trans = Hood.GetNode<Position2D>("Spawn").GlobalTransform;
+            var trans = Hood.SpawnPosition.GlobalTransform;
             GetTree().Root.AddChild(arrow);
             arrow.GlobalTransform = trans;
             arrow.Velocity = trans.x * 2000f / MaxTick * power;

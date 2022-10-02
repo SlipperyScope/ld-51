@@ -11,6 +11,7 @@ namespace ld51.game
     {
         private AudioStreamPlayer SFX;
         private AudioStreamPlayer SFX2;
+
         public override void _Ready()
         {
             SFX = GetNode<AudioStreamPlayer>("SFX");
