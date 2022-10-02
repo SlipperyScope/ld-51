@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
 [ext_resource path="res://Assets/BerryRotunda.tres" type="DynamicFontData" id=2]
 [ext_resource path="res://TestFauxLevels/Faux3.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TestFauxLevels/Faux2.tscn" type="PackedScene" id=4]
 [ext_resource path="res://TestFauxLevels/Faux1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/HUD.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
@@ -12,6 +13,8 @@ font_data = ExtResource( 2 )
 [node name="rootDOTplay" type="Node2D"]
 script = ExtResource( 1 )
 Levels = [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ) ]
+
+[node name="LevelContainer" type="Node2D" parent="."]
 
 [node name="StartModal" type="CanvasLayer" parent="."]
 offset = Vector2( 960, 700 )
@@ -41,3 +44,5 @@ margin_top = -92.0
 margin_right = 235.0
 margin_bottom = -72.0
 text = "Okay?"
+
+[node name="Control" parent="." instance=ExtResource( 6 )]

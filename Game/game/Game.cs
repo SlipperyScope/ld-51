@@ -6,6 +6,12 @@ public delegate void TimerCallback();
 
 public class TimedAction {
     public ulong time;
+    public float timeRemaining {
+        get {
+            GD.Print("checkin dat time");
+            return (float)(time - Time.GetTicksMsec()) / 1000f;
+        }
+    }
     public TimerCallback cb;
 
     public TimedAction(ulong time, TimerCallback cb) {
@@ -38,9 +44,10 @@ public class Game : Node2D
     public void ConstructLevel() {
         PackedScene lvl = lvls[0];
         lvls.RemoveAt(0);
+        Global.level++;
 
         var scene = lvl.Instance();
-        GetTree().Root.AddChild(scene);
+        GetNode<Node2D>("LevelContainer").AddChild(scene);
     }
 
     public void StartGame() {
@@ -91,6 +98,10 @@ public class Game : Node2D
         {
             timer.cb();
             timers.Remove(timer);
+        }
+
+        if (currentTimer != null) {
+            Global.timeRemaining = currentTimer.timeRemaining;
         }
     }
 }

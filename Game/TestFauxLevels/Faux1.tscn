@@ -9,7 +9,7 @@ colors = PoolColorArray( 0.572266, 0.0948279, 0.0948279, 1, 0.841797, 0.310675, 
 gradient = SubResource( 1 )
 width = 1920
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 960, 540 )
