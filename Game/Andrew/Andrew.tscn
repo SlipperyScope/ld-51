@@ -1,6 +1,5 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://game/Arrow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Art/Backgrounds/Grass.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Art/Backgrounds/NightSky.png" type="Texture" id=3]
 [ext_resource path="res://game/Hayfruit.tscn" type="PackedScene" id=4]
@@ -8,6 +7,7 @@
 [ext_resource path="res://game/Apple.tscn" type="PackedScene" id=6]
 [ext_resource path="res://game/RobNHood.tscn" type="PackedScene" id=7]
 [ext_resource path="res://game/Haywalled.tscn" type="PackedScene" id=8]
+[ext_resource path="res://game/Log.tscn" type="PackedScene" id=9]
 
 [node name="Andrew" type="Node2D"]
 
@@ -41,6 +41,23 @@ position = Vector2( 1813, 601 )
 [node name="Hayfruit6" parent="Haywall" instance=ExtResource( 4 )]
 position = Vector2( 1727, 210 )
 
+[node name="Logwall" type="Node" parent="."]
+
+[node name="Log" parent="Logwall" instance=ExtResource( 9 )]
+position = Vector2( 5, 537 )
+
+[node name="Log2" parent="Logwall" instance=ExtResource( 9 )]
+position = Vector2( 112, 540 )
+
+[node name="Log3" parent="Logwall" instance=ExtResource( 9 )]
+position = Vector2( 225, 540 )
+
+[node name="Log4" parent="Logwall" instance=ExtResource( 9 )]
+position = Vector2( 340, 537 )
+
+[node name="Log5" parent="Logwall" instance=ExtResource( 9 )]
+position = Vector2( 456, 534 )
+
 [node name="Ground2" type="StaticBody2D" parent="."]
 collision_layer = 17
 collision_mask = 15
@@ -60,11 +77,8 @@ z_index = 1
 collision_layer = 16
 collision_mask = 12
 
-[node name="Arrow" parent="." instance=ExtResource( 1 )]
-position = Vector2( 116, 140 )
-
 [node name="Apple" parent="." instance=ExtResource( 6 )]
-position = Vector2( 211, 570 )
+position = Vector2( 168, 414 )
 
 [node name="RobNHood" parent="." instance=ExtResource( 7 )]
 position = Vector2( 167, 746 )

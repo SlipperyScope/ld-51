@@ -15,6 +15,12 @@ namespace ld51.game
         private Int32 MoveAttempts = 5;
         private Int32 Attempt = 0;
         private Boolean Enabled = true;
+        private Single SpawnTime;
+
+        public override void _Ready()
+        {
+            SpawnTime = Time.GetTicksMsec();
+        }
 
         public override void _PhysicsProcess(Single delta)
         {
@@ -32,7 +38,7 @@ namespace ld51.game
 
             var collision = MoveAndCollide(amount, false);
             if (collision is null) return;
-
+            
             switch (collision.Collider)
             {
                 case Bouncer bouncer:
@@ -52,14 +58,17 @@ namespace ld51.game
                     break;
 
                 case Rob rob:
-                    Enabled = false;
-                    var sprite = GetNode<Sprite>("Sprite");
-                    var trans = sprite.GlobalTransform;
-                    RemoveChild(sprite);
-                    rob.AddChild(sprite);
-                    sprite.GlobalTransform = trans;
-                    rob.Touch(collision.Position);
-                    QueueFree();
+                    if (SpawnTime + 1000f < Time.GetTicksMsec())
+                    {
+                        Enabled = false;
+                        var sprite = GetNode<Sprite>("Sprite");
+                        var trans = sprite.GlobalTransform;
+                        RemoveChild(sprite);
+                        rob.AddChild(sprite);
+                        sprite.GlobalTransform = trans;
+                        rob.Touch(collision.Position);
+                        QueueFree();
+                    }
                     break;
 
                 default:
