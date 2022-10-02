@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://game/Menu.cs" type="Script" id=1]
+[ext_resource path="res://Assets/BerryRotunda.tres" type="DynamicFontData" id=2]
+
+[sub_resource type="Theme" id=1]
+Button/fonts/font = null
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+extra_spacing_top = 30
+extra_spacing_bottom = 30
+extra_spacing_space = 6
+font_data = ExtResource( 2 )
 
 [node name="Menu" type="Control"]
 margin_right = 1920.0
@@ -18,28 +29,27 @@ margin_right = 44.5
 margin_bottom = 34.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_scale = Vector2( 3, 3 )
 size_flags_vertical = 0
 
 [node name="Play" type="Button" parent="VBoxContainer"]
-margin_right = 89.0
-margin_bottom = 20.0
-focus_neighbour_top = NodePath("../Exit")
-focus_neighbour_bottom = NodePath("../Instructions")
+margin_right = 372.0
+margin_bottom = 115.0
+theme = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Play"
 
 [node name="Instructions" type="Button" parent="VBoxContainer"]
-margin_top = 24.0
-margin_right = 89.0
-margin_bottom = 44.0
-focus_neighbour_top = NodePath("../Play")
-focus_neighbour_bottom = NodePath("../Exit")
+margin_top = 119.0
+margin_right = 372.0
+margin_bottom = 234.0
+theme = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Instructions"
 
 [node name="Exit" type="Button" parent="VBoxContainer"]
-margin_top = 48.0
-margin_right = 89.0
-margin_bottom = 68.0
-focus_neighbour_top = NodePath("../Instructions")
-focus_neighbour_bottom = NodePath("../Play")
+margin_top = 238.0
+margin_right = 372.0
+margin_bottom = 353.0
+theme = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Exit"
