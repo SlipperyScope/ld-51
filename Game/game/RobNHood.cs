@@ -15,6 +15,12 @@ namespace ld51.game
         [Export]
         private Single MaxBowDistance = 500f;
 
+        [Export]
+        private Single MinAngle = -45f;
+
+        [Export]
+        private Single MaxAngle = 45f;
+
         private Hood Hood;
         private Rob Rob;
         private AudioStreamPlayer SFX;
@@ -37,16 +43,19 @@ namespace ld51.game
             var center = Rob.GlobalPosition;
             var mouse = GetGlobalMousePosition();
             var dir = center.DirectionTo(mouse);
-
-            if (center.DistanceTo(mouse) > MaxBowDistance)
+            var angle = Vector2.Right.AngleTo(dir);
+            var max = Mathf.Deg2Rad(MaxAngle);
+            var min = Mathf.Deg2Rad(MinAngle);
+            if (angle > max)
             {
-                Hood.GlobalPosition = center + dir * MaxBowDistance; 
+                dir = Vector2.Right.Rotated(max);
             }
-            else
+            else if (angle < min)
             {
-                Hood.GlobalPosition = mouse;
+                dir = Vector2.Right.Rotated(min);
             }
 
+            Hood.GlobalPosition = center + dir * Mathf.Min(center.DistanceTo(mouse), MaxBowDistance);
             Hood.LookAt(Hood.GlobalPosition + dir);
         }
 
