@@ -36,6 +36,7 @@ public class Game : Node2D
     private ulong LEVEL_LENGTH = 3000;
     private float PENALTY = 5f;
     private TimedAction currentTimer;
+	public string SummaryScene = "res://game/Summary.tscn";
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -102,6 +103,8 @@ public class Game : Node2D
             if (lvls.Count != 0) {
                 ConstructLevel();
                 currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
+            } else {
+                GetTree().ChangeScene(SummaryScene);
             }
         });
     }

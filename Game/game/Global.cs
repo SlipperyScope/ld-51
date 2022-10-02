@@ -9,6 +9,7 @@ public class Global : Node
     public static float timeRemaining = 0;
     public static float score = 0;
     public static int arrowsShottened = 0;
+    public static int apples = 0;
     public static bool paused = true;
 
     // Called when the node enters the scene tree for the first time.
@@ -19,6 +20,7 @@ public class Global : Node
 
     public static void Win() {
         if (game != null) {
+            Global.apples++;
             game.NextLevel(true);
         } else {
             throw new Exception("Tried to win a level before seting game on Global");
