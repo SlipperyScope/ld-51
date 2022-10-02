@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://TestFauxLevels/Fauxpple.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 0.572266, 0.0948279, 0.0948279, 1, 0.841797, 0.310675, 0.263213, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 1920
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 1, 1080 )
+texture = SubResource( 2 )
+
+[node name="Node2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( 467, 413 )
