@@ -1,7 +1,40 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
+[ext_resource path="res://Assets/BerryRotunda.tres" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
 
 [node name="rootDOTplay" type="Node2D"]
 script = ExtResource( 1 )
 Levels = [  ]
+
+[node name="StartModal" type="CanvasLayer" parent="."]
+offset = Vector2( 960, 700 )
+transform = Transform2D( 1, 0, 0, 1, 960, 700 )
+
+[node name="ColorRect" type="ColorRect" parent="StartModal"]
+margin_left = -300.0
+margin_top = -300.0
+margin_right = 300.0
+margin_bottom = -23.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="StartModal"]
+margin_left = -270.0
+margin_top = -270.0
+margin_right = 270.0
+margin_bottom = -55.0
+rect_clip_content = false
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/normal_font = SubResource( 1 )
+text = "Welcome, talented archer. Perhaps you have forgotten you are currently putting on a display of your skills for the whole town to see?
+
+Shoot the apple off your head as quickly as possible. You have 10 seconds."
+
+[node name="StartGame" type="Button" parent="StartModal"]
+margin_left = -235.0
+margin_top = -92.0
+margin_right = 235.0
+margin_bottom = -72.0
+text = "Okay?"

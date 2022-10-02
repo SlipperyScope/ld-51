@@ -28,16 +28,18 @@ public class Game : Node2D
         GD.Print("WAP");
 
         lvls = new List<PackedScene>(Levels);
-        StartGame();
 
         // 1. Show instructions modal
         // 2. On dismissmal, start 3 second count down
+        GetNode<Button>("StartModal/StartGame").Connect("pressed", this, nameof(StartGame));
+
         // 3. Load first scene, start timer
         // 4. On success or timeout, proceed to next level
     }
 
     public void StartGame() {
         // Close modal
+        GetNode<CanvasLayer>("StartModal").Visible = false;
         // Update flashing numbers
         Delay(0, () => GD.Print("Three!"));
         Delay(1000, () => GD.Print("Two!"));
