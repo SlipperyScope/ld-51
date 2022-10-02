@@ -10,15 +10,17 @@ namespace ld51.game
     public class Bouncer : StaticBody2D, IAudioTriggerable
     {
         private AudioStreamPlayer SFX;
-
         public override void _Ready()
         {
             SFX = GetNode<AudioStreamPlayer>("SFX");
         }
 
-        public void TriggerAudio()
+        public void TriggerAudio(Int32 index = 0)
         {
-            SFX.Play();
+            switch (index)
+            {
+                case 0: SFX.Play(); break;
+            }
         }
     }
 }

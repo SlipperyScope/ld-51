@@ -16,14 +16,20 @@ namespace ld51.game
         private Single MaxBowDistance = 500f;
 
         private RigidBody2D Hood;
-        private RigidBody2D Rob;
+        private Rob Rob;
         private AudioStreamPlayer SFX;
+        private Timer Timer;
+        private Int32 Tick = 0;
+        private Int32 MaxTick = 100;
 
         public override void _Ready()
         {
             Hood = GetNode<RigidBody2D>("Hood");
-            Rob = GetNode<RigidBody2D>("Rob");
+            Rob = GetNode<Rob>("Rob");
             SFX = GetNode<AudioStreamPlayer>("SFX");
+            Timer = GetNode<Timer>("Timer");
+            Timer.Connect("timeout", this, nameof(BowTick));
+            Timer.WaitTime = 1f / MaxTick;
         }
 
         public override void _Process(Single delta)
@@ -44,15 +50,34 @@ namespace ld51.game
             Hood.LookAt(Hood.GlobalPosition + dir);
         }
 
+        private void BowTick()
+        {
+            if (Tick++ < MaxTick)
+            {
+                Timer.Start();
+            }
+        }
+
         public override void _Input(InputEvent e)
         {
             if (e.IsActionPressed("Shoot"))
             {
-                SpawnArrow();
+                Timer.Start();
+            }
+            else if (e.IsActionReleased("Shoot"))
+            {
+                Timer.Stop();
+                SpawnArrow(Tick);
+
+                if (((Single)Tick / MaxTick) <= 0.1f)
+                { 
+                    Rob.Dangit();
+                }
+                Tick = 0;
             }
         }
 
-        private void SpawnArrow()
+        private void SpawnArrow(Int32 power = 1)
         {
             if (ArrowScene is null)
             {
@@ -64,7 +89,7 @@ namespace ld51.game
             var trans = Hood.GetNode<Position2D>("Spawn").GlobalTransform;
             GetTree().Root.AddChild(arrow);
             arrow.GlobalTransform = trans;
-            arrow.Velocity = trans.x * 1400f;
+            arrow.Velocity = trans.x * 2000f / MaxTick * power;
             SFX.Play();
         }
     }

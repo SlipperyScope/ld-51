@@ -9,6 +9,6 @@ namespace ld51.game
 {
     public interface IAudioTriggerable
     {
-        public void TriggerAudio();
+        public void TriggerAudio(Int32 index = 0);
     }
 }
