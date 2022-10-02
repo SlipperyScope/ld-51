@@ -11,7 +11,7 @@ namespace ld51.game
     {
         [Export]
         private Boolean StartEnabled = true;
-        private Boolean Enabled = true;
+        private Boolean Enabled = false;
 
         public void AddDecal(Sprite decal)
         {
@@ -28,6 +28,7 @@ namespace ld51.game
 
         public override void _EnterTree()
         {
+            Enabled = !StartEnabled;
             if (StartEnabled is false)
                 Disable();
             else
@@ -46,14 +47,34 @@ namespace ld51.game
 
         public void Enable()
         {
+            if (Enabled is true) return;
+
+            if (IsConnected("body_entered", this, nameof(BodyEntered)) is false)
+                Connect("body_entered", this, nameof(BodyEntered));
+            ContactsReported = 8;
             Enabled = true;
+            Sleeping = false;
             GravityScale = 1f;
         }
 
         public void Disable()
         {
+            if (Enabled is false) return;
+
+            if (IsConnected("body_entered", this, nameof(BodyEntered)) is true)
+                Disconnect("body_entered", this, nameof(BodyEntered));
+            ContactsReported = 0;
             Enabled = false;
+            Sleeping = true;
             GravityScale = 0f;
+        }
+
+        private void BodyEntered(PhysicsBody2D body)
+        {
+            if (body is IAudioTriggerable triggerable)
+            {
+                triggerable.TriggerAudio();
+            }
         }
     }
 }

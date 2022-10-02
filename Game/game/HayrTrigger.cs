@@ -23,7 +23,7 @@ namespace ld51.game
             {
                 foreach (var path in Triggerables)
                 {
-                    if (GetNode(path) is ISnowflake triggerable)
+                    if (GetNode(path) is ITriggerable triggerable)
                     triggerable.Trigger();
                 }
             }

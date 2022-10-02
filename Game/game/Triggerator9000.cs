@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ld51.game
 {
-    public class Triggerator9000 : Node, ISnowflake
+    public class Triggerator9000 : Node, ITriggerable
     {
         [Export]
         private NodePath Target;
@@ -21,7 +21,7 @@ namespace ld51.game
             else if (GetNode<Prop>(Target) is Prop prop)
             {
                 prop.Enable();
-                prop.ApplyCentralImpulse(Vector2.Down);
+                //prop.ApplyCentralImpulse(Vector2.Down);
             }
         }
     }

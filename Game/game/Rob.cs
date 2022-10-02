@@ -18,6 +18,7 @@ namespace ld51.game
         public void Touch(Vector2 at)
         {
             CallDeferred(nameof(MakeRigid));
+            GD.Print("OMGLIKEIMDEAD");
             SFX.Play();
         }
 

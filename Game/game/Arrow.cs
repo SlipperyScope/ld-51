@@ -44,7 +44,7 @@ namespace ld51.game
                 case Bouncer bouncer:
                     Velocity = Velocity.Bounce(collision.Normal);
                     Move(collision.Remainder);
-                    bouncer.Bounce();
+                    bouncer.TriggerAudio();
                     break;
 
                 case Prop prop:
