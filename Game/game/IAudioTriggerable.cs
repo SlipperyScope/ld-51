@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ld51.game
 {
-    public interface ISnowflake
+    public interface IAudioTriggerable
     {
-        public void Trigger();
+        public void TriggerAudio();
     }
 }

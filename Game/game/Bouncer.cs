@@ -7,7 +7,7 @@ using Godot;
 
 namespace ld51.game
 {
-    public class Bouncer : StaticBody2D
+    public class Bouncer : StaticBody2D, IAudioTriggerable
     {
         private AudioStreamPlayer SFX;
 
@@ -16,7 +16,7 @@ namespace ld51.game
             SFX = GetNode<AudioStreamPlayer>("SFX");
         }
 
-        public void Bounce()
+        public void TriggerAudio()
         {
             SFX.Play();
         }

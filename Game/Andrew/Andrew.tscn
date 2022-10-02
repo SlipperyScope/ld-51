@@ -15,10 +15,18 @@
 [node name="Andrew" type="Node2D"]
 
 [node name="BG" type="Sprite" parent="."]
-position = Vector2( 959.25, 534.25 )
+position = Vector2( 960, 540 )
 scale = Vector2( 0.5, 0.5 )
 z_index = -10
 texture = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 961, 501 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
 
 [node name="HayrTrigger" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1709, 535 )
@@ -26,37 +34,26 @@ rotation = 3.14159
 scale = Vector2( 1, -1 )
 Triggerables = [ NodePath("../TriggerableHayfruit/Triggerator9000") ]
 
+[node name="Ground2" type="StaticBody2D" parent="."]
+collision_layer = 17
+collision_mask = 15
+
+[node name="Sprite" type="Sprite" parent="Ground2"]
+position = Vector2( 960, 537 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground2"]
+polygon = PoolVector2Array( -9, 872, 103, 847, 283, 830, 462, 826, 702, 839, 1084, 881, 1361, 911, 1629, 926, 1789, 919, 1981, 896, 1977, 1099, -41, 1106, -47, 885 )
+
 [node name="TriggerableHayfruit" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1027, -635 )
+position = Vector2( 997, -728 )
+can_sleep = false
 StartEnabled = false
 
 [node name="Triggerator9000" type="Node" parent="TriggerableHayfruit"]
 script = ExtResource( 1 )
 Target = NodePath("..")
-
-[node name="Haywall" type="Node" parent="."]
-
-[node name="Hayfruit7" parent="Haywall" instance=ExtResource( 8 )]
-position = Vector2( 1674, 796 )
-scale = Vector2( -1, 1 )
-
-[node name="Hayfruit" parent="Haywall" instance=ExtResource( 4 )]
-position = Vector2( 1814, 337 )
-
-[node name="Hayfruit2" parent="Haywall" instance=ExtResource( 4 )]
-position = Vector2( 1642, 206 )
-
-[node name="Hayfruit3" parent="Haywall" instance=ExtResource( 4 )]
-position = Vector2( 1643, 334 )
-
-[node name="Hayfruit4" parent="Haywall" instance=ExtResource( 4 )]
-position = Vector2( 1734, 82 )
-
-[node name="Hayfruit5" parent="Haywall" instance=ExtResource( 4 )]
-position = Vector2( 1736, -53 )
-
-[node name="Hayfruit6" parent="Haywall" instance=ExtResource( 4 )]
-position = Vector2( 1811, 210 )
 
 [node name="Logwall" type="Node" parent="."]
 
@@ -75,34 +72,49 @@ position = Vector2( 346, 432 )
 [node name="Log5" parent="Logwall" instance=ExtResource( 9 )]
 position = Vector2( 429, 307 )
 
-[node name="Ground2" type="StaticBody2D" parent="."]
-collision_layer = 17
-collision_mask = 15
+[node name="Haywall" type="Node" parent="."]
 
-[node name="Sprite" type="Sprite" parent="Ground2"]
-position = Vector2( 960, 537 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 2 )
+[node name="Hayfruit7" parent="Haywall" instance=ExtResource( 8 )]
+position = Vector2( 1674, 796 )
+scale = Vector2( -1, 1 )
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground2"]
-visible = false
-polygon = PoolVector2Array( -9, 872, 103, 847, 283, 830, 462, 826, 702, 839, 1084, 881, 1361, 911, 1629, 926, 1789, 919, 1981, 896, 1977, 1099, -41, 1106, -47, 885 )
+[node name="Hayfruit" parent="Haywall" instance=ExtResource( 4 )]
+position = Vector2( 1799, 337 )
+
+[node name="Hayfruit2" parent="Haywall" instance=ExtResource( 4 )]
+position = Vector2( 1627, 206 )
+
+[node name="Hayfruit3" parent="Haywall" instance=ExtResource( 4 )]
+position = Vector2( 1628, 334 )
+
+[node name="Hayfruit4" parent="Haywall" instance=ExtResource( 4 )]
+position = Vector2( 1719, 82 )
+
+[node name="Hayfruit8" parent="Haywall" instance=ExtResource( 4 )]
+position = Vector2( 1432, 537 )
+
+[node name="Hayfruit5" parent="Haywall" instance=ExtResource( 4 )]
+position = Vector2( 192, 412 )
+
+[node name="Hayfruit6" parent="Haywall" instance=ExtResource( 4 )]
+position = Vector2( 1796, 210 )
 
 [node name="Bouncer" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1504, 869 )
 z_index = 1
-collision_layer = 16
-collision_mask = 12
 
 [node name="Bouncer2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 513, 445 )
 rotation = -1.45554
 z_index = 1
-collision_layer = 16
-collision_mask = 12
+
+[node name="Bouncer3" parent="." instance=ExtResource( 5 )]
+position = Vector2( -23, 453 )
+rotation = -5.01552
+z_index = 1
 
 [node name="Apple" parent="." instance=ExtResource( 6 )]
-position = Vector2( 168, 414 )
+position = Vector2( 193, 287 )
 
 [node name="RobNHood" parent="." instance=ExtResource( 7 )]
 position = Vector2( 167, 746 )
