@@ -23,6 +23,7 @@ public class FlashingText : Control
     public override void _Ready()
     {
         rtl = GetNode<RichTextLabel>("Label");
+        rtl.BbcodeText = $"[center]{flashingText}[/center]";
         GetNode<Timer>("Timer").Connect("timeout", this, nameof(Fadeout));
     }
 
@@ -36,6 +37,7 @@ public class FlashingText : Control
  {
     if (fadingOut) {
         rtl.Modulate = new Color(rtl.Modulate, rtl.Modulate.a - 0.1f);
+        rtl.MarginTop = rtl.MarginTop + 6;
         if (rtl.Modulate.a <= 0) {
             fadingOut = false;
             QueueFree();

@@ -8,7 +8,6 @@ public class TimedAction {
     public ulong time;
     public float timeRemaining {
         get {
-            GD.Print("checkin dat time");
             return (float)(time - Time.GetTicksMsec()) / 1000f;
         }
     }
@@ -24,6 +23,8 @@ public class Game : Node2D
 {
     [Export]
     public PackedScene[] Levels;
+    [Export]
+    public PackedScene FlashMessage;
 
     private List<PackedScene> lvls;
     private List<TimedAction> timers = new List<TimedAction>();
@@ -55,12 +56,24 @@ public class Game : Node2D
         GetNode<CanvasLayer>("StartModal").Visible = false;
 
         // Update flashing numbers
-        Delay(0, () => GD.Print("Three!"));
-        Delay(1000, () => GD.Print("Two!"));
-        Delay(2000, () => GD.Print("One!"));
+        Delay(0, () => Flash("Three!"));
+        Delay(1000, () => Flash("Two!"));
+        Delay(2000, () => Flash("One!"));
         Delay(3000, () => {
+            Flash("Do Tell!");
             currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
         });
+    }
+
+    public void Flash(string message) {
+        var msg = FlashMessage.Instance() as FlashingText;
+        msg.flashingText = message;
+
+        var size = GetViewport().GetVisibleRect().Size;
+        msg.MarginLeft = size.x / 2;
+        msg.MarginTop = size.y / 2;
+
+        GetNode<Node2D>("MessageContainer").AddChild(msg);
     }
 
     public void NextLevel() {
