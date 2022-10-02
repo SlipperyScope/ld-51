@@ -44,6 +44,10 @@ namespace ld51.game
                     prop.AddDecal(GetNode<Sprite>("Sprite"));
                     prop.Enable();
                     prop.ApplyImpulse(collision.Position - prop.GlobalPosition, Velocity);
+                    if (prop is IGoal goal)
+                    {
+                        goal.Touch(collision.Position);
+                    }
                     QueueFree();
                     break;
 

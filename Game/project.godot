@@ -31,7 +31,7 @@ common/drop_mouse_on_gui_input_disabled=true
 
 [layer_names]
 
-2d_physics/layer_1="Everything"
+2d_physics/layer_1="Default"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Arrow"
 2d_physics/layer_4="Apple"
