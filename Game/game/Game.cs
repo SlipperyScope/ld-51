@@ -6,15 +6,19 @@ public delegate void TimerCallback();
 
 public class TimedAction {
     public ulong time;
+    public readonly float duration;
     public float timeRemaining {
         get {
-            return (float)(time - Time.GetTicksMsec()) / 1000f;
+            if (Time.GetTicksMsec() > time) return 0;
+            float remainder = time - Time.GetTicksMsec();
+            return remainder / 1000f;
         }
     }
     public TimerCallback cb;
 
     public TimedAction(ulong time, TimerCallback cb) {
-        this.time = time;
+        this.time = time + Time.GetTicksMsec();
+        this.duration = time;
         this.cb = cb;
     }
 }
@@ -30,6 +34,7 @@ public class Game : Node2D
     private List<TimedAction> timers = new List<TimedAction>();
 
     private ulong LEVEL_LENGTH = 3000;
+    private float PENALTY = 5f;
     private TimedAction currentTimer;
 
     // Called when the node enters the scene tree for the first time.
@@ -83,9 +88,16 @@ public class Game : Node2D
         if (Global.paused) return;
 
         Global.paused = true;
+        GD.Print(LEVEL_LENGTH, currentTimer.timeRemaining);
+        Global.score += (LEVEL_LENGTH / 1000) - currentTimer.timeRemaining;
+
+        if (!success) {
+            Global.score += PENALTY;
+        }
+
         CancelTimer(currentTimer);
 
-        Flash(success ? "Nice!" : "Bummer (+5s)");
+        Flash(success ? "Nice!" : $"Bummer (+{PENALTY}s)");
         Delay(300, () => {
             if (lvls.Count != 0) {
                 ConstructLevel();
@@ -95,7 +107,7 @@ public class Game : Node2D
     }
 
     public TimedAction Delay(ulong ms, TimerCallback cb) {
-        var timer = new TimedAction(ms + Time.GetTicksMsec(), cb);
+        var timer = new TimedAction(ms, cb);
         timers.Add(timer);
         return timer;
     }

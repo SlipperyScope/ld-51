@@ -7,6 +7,7 @@ public class Global : Node
 
     public static int level = 0;
     public static float timeRemaining = 0;
+    public static float score = 0;
     public static int arrowsShottened = 0;
     public static bool paused = true;
 
