@@ -22,33 +22,56 @@ public class Game : Node2D
     private List<PackedScene> lvls;
     private List<TimedAction> timers = new List<TimedAction>();
 
+    private ulong LEVEL_LENGTH = 3000;
+    private TimedAction currentTimer;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        GD.Print("WAP");
-
         lvls = new List<PackedScene>(Levels);
+        Global.game = this;
 
-        // 1. Show instructions modal
-        // 2. On dismissmal, start 3 second count down
+        ConstructLevel();
         GetNode<Button>("StartModal/StartGame").Connect("pressed", this, nameof(StartGame));
+    }
 
-        // 3. Load first scene, start timer
-        // 4. On success or timeout, proceed to next level
+    public void ConstructLevel() {
+        PackedScene lvl = lvls[0];
+        lvls.RemoveAt(0);
+
+        var scene = lvl.Instance();
+        GetTree().Root.AddChild(scene);
     }
 
     public void StartGame() {
         // Close modal
         GetNode<CanvasLayer>("StartModal").Visible = false;
+
         // Update flashing numbers
         Delay(0, () => GD.Print("Three!"));
         Delay(1000, () => GD.Print("Two!"));
         Delay(2000, () => GD.Print("One!"));
-        Delay(3000, () => GD.Print("Fuckin start yeah!!!"));
+        Delay(3000, () => {
+            currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
+        });
     }
 
-    public void Delay(ulong ms, TimerCallback cb) {
-        timers.Add(new TimedAction(ms + Time.GetTicksMsec(), cb));
+    public void NextLevel() {
+        CancelTimer(currentTimer);
+        if (lvls.Count != 0) {
+            ConstructLevel();
+            currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
+        }
+    }
+
+    public TimedAction Delay(ulong ms, TimerCallback cb) {
+        var timer = new TimedAction(ms + Time.GetTicksMsec(), cb);
+        timers.Add(timer);
+        return timer;
+    }
+
+    public void CancelTimer(TimedAction timer) {
+        timers.Remove(timer);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
