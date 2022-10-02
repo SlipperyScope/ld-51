@@ -23,54 +23,53 @@ MaxBowDistance = 100.0
 position = Vector2( 103, 628 )
 
 [node name="Hayfruit7" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1837, 212 )
+position = Vector2( 84, 395 )
 
 [node name="Hayfruit8" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1838, 85 )
+position = Vector2( 252, 395 )
 
 [node name="Hayfruit9" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1845, 466 )
+position = Vector2( 775, 787 )
 
 [node name="Hayfruit10" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1840, 340 )
+position = Vector2( 768, 654 )
 
 [node name="Log" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1665, 876 )
+position = Vector2( 1471, 870 )
 
 [node name="Log2" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1868, 577 )
+position = Vector2( 158, 495 )
 
 [node name="Log3" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1873, 673 )
+position = Vector2( 644, 634 )
 
 [node name="Log4" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1881, 772 )
+position = Vector2( 1536, 775 )
 
 [node name="Log5" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1886, 865 )
+position = Vector2( 1484, 682 )
 
 [node name="Log6" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1762, 583 )
+position = Vector2( 41, 497 )
 
 [node name="Log7" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1651, 587 )
+position = Vector2( 640, 720 )
 
 [node name="Log8" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1766, 684 )
+position = Vector2( 284, 488 )
 
 [node name="Log9" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1658, 686 )
+position = Vector2( 637, 806 )
 
 [node name="Log10" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1766, 780 )
+position = Vector2( 1422, 773 )
 
 [node name="Log11" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1661, 784 )
+position = Vector2( 1353, 871 )
 
 [node name="Log12" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1775, 874 )
+position = Vector2( 1596, 868 )
 
 [node name="Bouncer" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1670, 470 )
-rotation = -0.733038
-scale = Vector2( 1, 1 )
+position = Vector2( 563, 786 )
+rotation = -0.296706
