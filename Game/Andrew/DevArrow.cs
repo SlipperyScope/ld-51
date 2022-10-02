@@ -11,12 +11,13 @@ public class DevArrow : RigidBody2D
 
 	public override void _Ready()
 	{
-		ApplyCentralImpulse(Transform.x * 2000f);
+		ApplyCentralImpulse(Transform.x * 4000f);
 	}
 
 	public override void _PhysicsProcess(Single delta)
 	{
-		LookAt(GlobalPosition + LinearVelocity);
+		if (Mode is ModeEnum.Rigid && LinearVelocity.Length() >= 500f)
+			LookAt(GlobalPosition + LinearVelocity);
 	}
 
 	public override void _IntegrateForces(Physics2DDirectBodyState state)
@@ -24,13 +25,12 @@ public class DevArrow : RigidBody2D
 		AppliedTorque = 0f;
 		AppliedForce = Vector2.Zero;
 
-
 		base._IntegrateForces(state);
 	}
 
 	private void OnBodyEntered(PhysicsBody2D body)
 	{
-		if (LinearVelocity.Length() < 100f)
+		if (LinearVelocity.Length() < 500f)
 		{
 			CallDeferred(nameof(DisablePhysics));
 			// wiggle or something? 
@@ -39,7 +39,7 @@ public class DevArrow : RigidBody2D
 		switch (body)
 		{
 			case DevApple apple:
-				CallDeferred(nameof(DisablePhysics));
+				//CallDeferred(nameof(DisablePhysics));
 				apple.AddDecal(GetNode<Sprite>("Sprite"));
 				//apple.ApplyImpulse(GlobalPosition - apple.GlobalPosition, LinearVelocity * Mass / apple.Mass);
 				//apple.Bonk(GlobalPosition, LinearVelocity * Mass);
@@ -55,7 +55,7 @@ public class DevArrow : RigidBody2D
 
 	private void DisablePhysics()
 	{
-		Mode = ModeEnum.Kinematic;
+		Mode = ModeEnum.Static;
 		CollisionLayer = 0;
 		CollisionMask = 0;
 		ContactMonitor = false;
