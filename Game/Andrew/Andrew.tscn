@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/Arrow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Art/Backgrounds/Grass.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Art/Backgrounds/NightSky.png" type="Texture" id=3]
 [ext_resource path="res://game/Hayfruit.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/Bouncer.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 1043.5, 41 )
@@ -77,9 +78,14 @@ __meta__ = {
 position = Vector2( 941, 1103.5 )
 shape = SubResource( 8 )
 
+[node name="Bouncer" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1504, 869 )
+collision_layer = 16
+collision_mask = 12
+
 [node name="Arrow" parent="." instance=ExtResource( 1 )]
 position = Vector2( 116, 140 )
-Velocity = Vector2( 500, 0 )
+Velocity = Vector2( 1100, 0 )
 
 [node name="Haywall" type="Node" parent="."]
 
