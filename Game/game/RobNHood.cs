@@ -103,12 +103,15 @@ namespace ld51.game
                 return;
             }
 
+            if (Global.paused is true) return;
+
             var arrow = ArrowScene.Instance<Arrow>();
             var trans = Hood.SpawnPosition.GlobalTransform;
             GetParent().AddChild(arrow);
             arrow.GlobalTransform = trans;
             arrow.Velocity = trans.x * 2000f * power;
             SFX.Play();
+            Global.arrowsShottened++;
         }
 
         public void Kill()
