@@ -3,8 +3,8 @@
 [ext_resource path="res://Assets/Art/Backgrounds/Grass.png" type="Texture" id=1]
 
 [node name="Ground2" type="StaticBody2D"]
-collision_layer = 17
-collision_mask = 15
+collision_layer = 16
+collision_mask = 14
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 960, 537 )

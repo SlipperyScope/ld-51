@@ -11,11 +11,13 @@ namespace ld51.game
     {
         private AnimationPlayer Anim;
         public Position2D SpawnPosition;
+        public AudioStreamPlayer Twang;
 
         public override void _Ready()
         {
             Anim = GetNode<AnimationPlayer>("AnimationPlayer");
             SpawnPosition = GetNode<Position2D>("Sprite/Spawn");
+            Twang = GetNode<AudioStreamPlayer>("Twang");
             SetAnim(0f);
         }
 

@@ -1,14 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Art/Player/Leg2.png" type="Texture" id=1]
+[ext_resource path="res://game/Gib.cs" type="Script" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 5.0
 height = 32.0
 
 [node name="GibLeg2" type="RigidBody2D"]
-collision_layer = 2
-collision_mask = 30
+collision_layer = 0
+collision_mask = 14
+script = ExtResource( 2 )
+StartEnabled = false
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -11, 0 )

@@ -12,30 +12,38 @@
 [node name="GibHead" parent="." instance=ExtResource( 1 )]
 position = Vector2( -1, -55 )
 collision_mask = 28
+gravity_scale = 0.0
+EnableOnHit = true
 
 [node name="GibHat" parent="." instance=ExtResource( 6 )]
 position = Vector2( -35, -79 )
 collision_mask = 28
+gravity_scale = 0.0
 
 [node name="GibLeg2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 27, 109 )
 rotation = 1.61016
-collision_mask = 28
+collision_mask = 0
+gravity_scale = 0.0
+can_sleep = false
 
 [node name="GibLeg1" parent="." instance=ExtResource( 2 )]
 position = Vector2( 8, 140 )
 rotation = 1.63137
-scale = Vector2( 1, 1 )
-collision_mask = 28
+collision_mask = 0
+gravity_scale = 0.0
+can_sleep = false
 
 [node name="GibBody" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, 23 )
 collision_mask = 28
+gravity_scale = 0.0
 
 [node name="GibQuiver" parent="." instance=ExtResource( 3 )]
 position = Vector2( -21, 8 )
 rotation = -0.739183
 collision_mask = 28
+gravity_scale = 0.0
 
 [node name="DampedSpringJoint2D" type="PinJoint2D" parent="."]
 position = Vector2( -1, -32 )
