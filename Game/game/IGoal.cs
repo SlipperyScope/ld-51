@@ -13,6 +13,13 @@ namespace ld51.game
         /// Touch goal
         /// </summary>
         /// <param name="at">Position in global coordinates</param>
-        public void Touch(Vector2 at);
+        public void Touch(TouchData data);
+    }
+
+    public record TouchData
+    {
+        public Vector2 Location;
+        public Vector2 Direction;
+        public Vector2 Velocity;
     }
 }

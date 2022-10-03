@@ -12,19 +12,23 @@ namespace ld51.game
         public delegate void GibHitHandler(object source, GibHitEventArgs e);
         public event GibHitHandler GibHit;
 
-        public void Touch(Vector2 at)
+        [Export]
+        public Boolean Bleeds = true;
+
+        public void Touch(TouchData data)
         {
-            GibHit?.Invoke(this, new GibHitEventArgs(Enabled));
+            GibHit?.Invoke(this, new GibHitEventArgs(Enabled, data));
         }
     }
 
     public class GibHitEventArgs : EventArgs
     {
         public Boolean IsActive;
-
-        public GibHitEventArgs(Boolean isActive)
+        public TouchData Data;
+        public GibHitEventArgs(Boolean isActive, TouchData data)
         {
             IsActive = isActive;
+            Data = data;
         }
     }
 }

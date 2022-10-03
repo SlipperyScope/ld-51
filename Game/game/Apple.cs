@@ -15,7 +15,7 @@ namespace ld51.game
             EnableOnHit = true;
         }
 
-        public void Touch(Vector2 at)
+        public void Touch(TouchData data)
         {
             GetNode<AudioStreamPlayer>("SFX").Play();
             Global.Win();

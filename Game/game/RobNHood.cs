@@ -13,7 +13,7 @@ namespace ld51.game
         private PackedScene ArrowScene;
 
         [Export]
-        private PackedScene GibScene;
+        private PackedScene BloodEmmitterScene;
 
         [Export]
         private Single MaxBowDistance = 500f;
@@ -48,7 +48,31 @@ namespace ld51.game
 
             Head = Gibs.GetNode<Gib>("GibHead");
             Head.GibHit += OnHeadHit;
+
+            foreach (var child in Gibs.GetChildren())
+            {
+                if (child is Gib gib)
+                {
+                    gib.GibHit += (_, data) =>
+                    {
+                        if (gib.Enabled is false)
+                        {
+                            Ouch.Play();
+                            if (gib.Bleeds is true)
+                            {
+                                var emmitter = BloodEmmitterScene.Instance<Particles2D>();
+                                gib.AddChild(emmitter);
+                                emmitter.GlobalPosition = data.Data.Location;
+                                emmitter.LookAt(data.Data.Location - data.Data.Direction);
+                                
+                            }
+                        }
+                    };
+                }
+            }
         }
+
+
 
         public override void _Process(Single delta)
         {
@@ -69,6 +93,8 @@ namespace ld51.game
 
             Hood.GlobalPosition = center + dir * Mathf.Max(40f, Mathf.Min(center.DistanceTo(mouse), MaxBowDistance));
             Hood.LookAt(Hood.GlobalPosition + dir);
+
+
 
             if (StartDraw != 0)
             {
@@ -96,7 +122,7 @@ namespace ld51.game
             {
                 SpawnArrow(Mathf.Min(1f, delta / (DrawTime * 1000f)));
 
-                if (delta / (DrawTime * 1000f) <= 0.2f)
+                if (Global.paused is false && delta / (DrawTime * 1000f) <= 0.2f)
                 {
                     Dangit.Play();
                 }

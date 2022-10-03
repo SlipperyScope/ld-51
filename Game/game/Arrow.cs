@@ -55,7 +55,7 @@ namespace ld51.game
                         prop.ApplyImpulse(collision.Position - prop.GlobalPosition, Velocity);
                     if (prop is IGoal goal)
                     {
-                        goal.Touch(collision.Position);
+                        goal.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity});
                     }
                     QueueFree();
                     break;
