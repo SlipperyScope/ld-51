@@ -29,6 +29,7 @@ namespace ld51.game
 
         private Hood Hood;
         private Rob Rob;
+        private Node2D DeadRob;
         private AudioStreamPlayer SFX;
         private Boolean Dead = false;
         private UInt64 StartDraw = 0;
@@ -42,7 +43,7 @@ namespace ld51.game
 
         public override void _Process(Single delta)
         {
-            var center = Rob.GlobalPosition;
+            var center = DeadRob is not null ? DeadRob.GlobalPosition : Rob.GlobalPosition;
             var mouse = GetGlobalMousePosition();
             var dir = center.DirectionTo(mouse);
             var angle = Vector2.Right.AngleTo(dir);
@@ -88,7 +89,7 @@ namespace ld51.game
 
                 if (delta / (DrawTime * 1000f) <= 0.1f)
                 { 
-                    Rob.Dangit();
+                    Rob?.Dangit();
                 }
                 StartDraw = 0;
                 Hood.SetAnim(0f);
@@ -116,7 +117,7 @@ namespace ld51.game
 
         public void Kill()
         {
-            Dead = true;
+            //Dead = true;
             if (GibScene is null)
             {
                 GD.PrintErr("Gibs scene is not specified");
@@ -127,14 +128,17 @@ namespace ld51.game
             GetParent().AddChild(gibs);
             gibs.GlobalTransform = GlobalTransform;
 
-            var trans = Hood.GlobalTransform;
-            RemoveChild(Hood);
-            GetParent().AddChild(Hood);
-            Hood.Mode = RigidBody2D.ModeEnum.Rigid;
-            Hood.GlobalTransform = trans;
-            Hood.CollisionLayer = 2;
-            Hood.CollisionMask |= 4;
-            QueueFree();
+            //var trans = Hood.GlobalTransform;
+            //RemoveChild(Hood);
+            //GetParent().AddChild(Hood);
+            //Hood.Mode = RigidBody2D.ModeEnum.Rigid;
+            //Hood.GlobalTransform = trans;
+            //Hood.CollisionLayer = 2;
+            //Hood.CollisionMask |= 4;
+            //QueueFree();
+
+            Rob.QueueFree();
+            DeadRob = gibs.GetNode<Node2D>("GibBody");
         }
     }
 }
