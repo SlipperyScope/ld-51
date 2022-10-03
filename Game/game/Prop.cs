@@ -11,7 +11,10 @@ namespace ld51.game
 	{
 		[Export]
 		private Boolean StartEnabled = true;
-		private Boolean Enabled = false;
+		public Boolean Enabled = false;
+
+		[Export]
+		public Boolean EnableOnHit = false;
 
 		public void AddDecal(Sprite decal)
 		{
@@ -45,7 +48,7 @@ namespace ld51.game
 			}
 		}
 
-		public void Enable()
+        public void Enable()
 		{
 			if (Enabled is true) return;
 

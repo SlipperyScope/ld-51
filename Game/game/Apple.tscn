@@ -10,7 +10,13 @@ radius = 38.0132
 [node name="Apple" type="RigidBody2D"]
 collision_layer = 8
 collision_mask = 30
+gravity_scale = 0.0
+can_sleep = false
+linear_damp = 0.0
+angular_damp = 0.0
 script = ExtResource( 2 )
+StartEnabled = false
+EnableOnHit = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -1, -6 )

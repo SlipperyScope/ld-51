@@ -28,22 +28,31 @@ namespace ld51.game
         private Single DrawTime = 0.5f;
 
         private Hood Hood;
-        private Rob Rob;
-        private Node2D DeadRob;
-        private AudioStreamPlayer SFX;
+        private Node2D Gibs;
+        private Gib Head;
+        private Gib Body;
+        private Apple Apple;
+        private AudioStreamPlayer Dangit;
+        private AudioStreamPlayer Ouch;
         private Boolean Dead = false;
         private UInt64 StartDraw = 0;
 
         public override void _Ready()
         {
             Hood = GetNode<Hood>("Hood");
-            Rob = GetNode<Rob>("Rob");
-            SFX = GetNode<AudioStreamPlayer>("SFX");
+            Dangit = GetNode<AudioStreamPlayer>("Dangit");
+            Ouch = GetNode<AudioStreamPlayer>("Ouch");
+            Apple = GetNode<Apple>("Apple");
+            Gibs = GetNode<Node2D>("Gibs");
+            Body = Gibs.GetNode<Gib>("GibBody");
+
+            Head = Gibs.GetNode<Gib>("GibHead");
+            Head.GibHit += OnHeadHit;
         }
 
         public override void _Process(Single delta)
         {
-            var center = DeadRob is not null ? DeadRob.GlobalPosition : Rob.GlobalPosition;
+            var center = Body.GlobalPosition;
             var mouse = GetGlobalMousePosition();
             var dir = center.DirectionTo(mouse);
             var angle = Vector2.Right.AngleTo(dir);
@@ -58,7 +67,7 @@ namespace ld51.game
                 dir = Vector2.Right.Rotated(min);
             }
 
-            Hood.GlobalPosition = center + dir * Mathf.Min(center.DistanceTo(mouse), MaxBowDistance);
+            Hood.GlobalPosition = center + dir * Mathf.Max(40f, Mathf.Min(center.DistanceTo(mouse), MaxBowDistance));
             Hood.LookAt(Hood.GlobalPosition + dir);
 
             if (StartDraw != 0)
@@ -75,7 +84,7 @@ namespace ld51.game
 
         public override void _Input(InputEvent e)
         {
-            if (Dead is true) return;
+            //if (Dead is true) return;
 
             var delta = Time.GetTicksMsec() - StartDraw;
 
@@ -87,10 +96,11 @@ namespace ld51.game
             {
                 SpawnArrow(Mathf.Min(1f, delta / (DrawTime * 1000f)));
 
-                if (delta / (DrawTime * 1000f) <= 0.1f)
-                { 
-                    Rob?.Dangit();
+                if (delta / (DrawTime * 1000f) <= 0.2f)
+                {
+                    Dangit.Play();
                 }
+
                 StartDraw = 0;
                 Hood.SetAnim(0f);
             }
@@ -111,34 +121,29 @@ namespace ld51.game
             GetParent().AddChild(arrow);
             arrow.GlobalTransform = trans;
             arrow.Velocity = trans.x * 2000f * power;
-            SFX.Play();
+            Hood.Twang.Play();
             Global.arrowsShottened++;
+        }
+
+        private void OnHeadHit(object source, GibHitEventArgs e)
+        {
+            if (e.IsActive is true)
+            {
+                Kill();
+            }
         }
 
         public void Kill()
         {
-            //Dead = true;
-            if (GibScene is null)
+            Dead = true;
+            foreach (var child in Gibs.GetChildren())
             {
-                GD.PrintErr("Gibs scene is not specified");
-                return;
+                if (child is Gib gib)
+                {
+                    gib.Enable();
+                }
             }
-
-            var gibs = GibScene.Instance() as Node2D;
-            GetParent().AddChild(gibs);
-            gibs.GlobalTransform = GlobalTransform;
-
-            //var trans = Hood.GlobalTransform;
-            //RemoveChild(Hood);
-            //GetParent().AddChild(Hood);
-            //Hood.Mode = RigidBody2D.ModeEnum.Rigid;
-            //Hood.GlobalTransform = trans;
-            //Hood.CollisionLayer = 2;
-            //Hood.CollisionMask |= 4;
-            //QueueFree();
-
-            Rob.QueueFree();
-            DeadRob = gibs.GetNode<Node2D>("GibBody");
+            Apple.Enable();
         }
     }
 }

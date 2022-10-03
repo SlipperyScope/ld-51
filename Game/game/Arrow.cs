@@ -49,28 +49,15 @@ namespace ld51.game
 
                 case Prop prop:
                     prop.AddDecal(GetNode<Sprite>("Sprite"));
-                    prop.Enable();
-                    prop.ApplyImpulse(collision.Position - prop.GlobalPosition, Velocity);
+                    if (prop.EnableOnHit is true)
+                        prop.Enable();
+                    if (prop.Enabled)
+                        prop.ApplyImpulse(collision.Position - prop.GlobalPosition, Velocity);
                     if (prop is IGoal goal)
                     {
                         goal.Touch(collision.Position);
                     }
                     QueueFree();
-                    break;
-
-                case Rob rob:
-                    if (SpawnTime + 100f < Time.GetTicksMsec())
-                    {
-                        Enabled = false;
-                        rob.Kill();
-                        //var sprite = GetNode<Sprite>("Sprite");
-                        //var trans = sprite.GlobalTransform;
-                        //RemoveChild(sprite);
-                        //rob.AddChild(sprite);
-                        //sprite.GlobalTransform = trans;
-                        rob.Touch(collision.Position);
-                        QueueFree();
-                    }
                     break;
 
                 default:

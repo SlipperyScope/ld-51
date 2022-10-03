@@ -12,6 +12,7 @@ namespace ld51.game
         public override void _EnterTree()
         {
             Disable();
+            EnableOnHit = true;
         }
 
         public void Touch(Vector2 at)
