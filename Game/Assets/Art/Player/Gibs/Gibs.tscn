@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Art/Player/Gibs/Head.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Art/Player/Gibs/Leg1.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Art/Player/Gibs/Quiver.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Art/Player/Gibs/Body.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Art/Player/Gibs/Leg2.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Art/Player/Gibs/Hat.tscn" type="PackedScene" id=6]
+
+[node name="Gibs" type="Node2D"]
+
+[node name="GibBody" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, 23 )
+
+[node name="GibHead" parent="." instance=ExtResource( 1 )]
+position = Vector2( -1, -55 )
+
+[node name="GibHat" parent="." instance=ExtResource( 6 )]
+position = Vector2( -35, -79 )
+
+[node name="GibLeg1" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 140 )
+rotation = 1.63137
+
+[node name="GibLeg2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 27, 109 )
+rotation = 1.61016
+
+[node name="GibQuiver" parent="." instance=ExtResource( 3 )]
+position = Vector2( -21, 8 )
+rotation = -0.739183

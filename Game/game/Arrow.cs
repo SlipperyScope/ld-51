@@ -62,11 +62,12 @@ namespace ld51.game
                     if (SpawnTime + 100f < Time.GetTicksMsec())
                     {
                         Enabled = false;
-                        var sprite = GetNode<Sprite>("Sprite");
-                        var trans = sprite.GlobalTransform;
-                        RemoveChild(sprite);
-                        rob.AddChild(sprite);
-                        sprite.GlobalTransform = trans;
+                        rob.Kill();
+                        //var sprite = GetNode<Sprite>("Sprite");
+                        //var trans = sprite.GlobalTransform;
+                        //RemoveChild(sprite);
+                        //rob.AddChild(sprite);
+                        //sprite.GlobalTransform = trans;
                         rob.Touch(collision.Position);
                         QueueFree();
                     }

@@ -91,7 +91,7 @@ position = Vector2( 1628, 334 )
 position = Vector2( 1719, 82 )
 
 [node name="Hayfruit8" parent="Haywall" instance=ExtResource( 4 )]
-position = Vector2( 1432, 537 )
+position = Vector2( 1721, -56 )
 
 [node name="Hayfruit5" parent="Haywall" instance=ExtResource( 4 )]
 position = Vector2( 192, 412 )

@@ -19,7 +19,7 @@ namespace ld51.game
         }
         public void Touch(Vector2 at)
         {
-            CallDeferred(nameof(MakeRigid));
+            //CallDeferred(nameof(MakeRigid));
             GD.Print("OMGLIKEIMDEAD");
             SFX.Play();
         }
@@ -30,5 +30,7 @@ namespace ld51.game
         }
 
         private void MakeRigid() => Mode = ModeEnum.Rigid;
+
+        public void Kill() => GetParent<RobNHood>().Kill();
     }
 }

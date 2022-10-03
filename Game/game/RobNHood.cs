@@ -13,6 +13,9 @@ namespace ld51.game
         private PackedScene ArrowScene;
 
         [Export]
+        private PackedScene GibScene;
+
+        [Export]
         private Single MaxBowDistance = 500f;
 
         [Export]
@@ -21,21 +24,20 @@ namespace ld51.game
         [Export]
         private Single MaxAngle = 45f;
 
+        [Export]
+        private Single DrawTime = 0.5f;
+
         private Hood Hood;
         private Rob Rob;
         private AudioStreamPlayer SFX;
-        private Timer Timer;
-        private Int32 Tick = 0;
-        private Int32 MaxTick = 100;
+        private Boolean Dead = false;
+        private UInt64 StartDraw = 0;
 
         public override void _Ready()
         {
             Hood = GetNode<Hood>("Hood");
             Rob = GetNode<Rob>("Rob");
             SFX = GetNode<AudioStreamPlayer>("SFX");
-            Timer = GetNode<Timer>("Timer");
-            Timer.Connect("timeout", this, nameof(BowTick));
-            Timer.WaitTime = 1f / MaxTick;
         }
 
         public override void _Process(Single delta)
@@ -57,38 +59,43 @@ namespace ld51.game
 
             Hood.GlobalPosition = center + dir * Mathf.Min(center.DistanceTo(mouse), MaxBowDistance);
             Hood.LookAt(Hood.GlobalPosition + dir);
+
+            if (StartDraw != 0)
+            {
+                Bownimate();
+            }
         }
 
-        private void BowTick()
+        private void Bownimate()
         {
-            if (Tick++ < MaxTick)
-            {
-                Timer.Start();
-                Hood.SetAnim((Single)Tick / MaxTick);
-            }
+            var delta = Time.GetTicksMsec() - StartDraw;
+            Hood.SetAnim(Mathf.Min(1f, delta / (DrawTime * 1000f)));
         }
 
         public override void _Input(InputEvent e)
         {
+            if (Dead is true) return;
+
+            var delta = Time.GetTicksMsec() - StartDraw;
+
             if (e.IsActionPressed("Shoot"))
             {
-                Timer.Start();
+                StartDraw = Time.GetTicksMsec();
             }
             else if (e.IsActionReleased("Shoot"))
             {
-                Timer.Stop();
-                SpawnArrow(Tick);
+                SpawnArrow(Mathf.Min(1f, delta / (DrawTime * 1000f)));
 
-                if (((Single)Tick / MaxTick) <= 0.1f)
+                if (delta / (DrawTime * 1000f) <= 0.1f)
                 { 
                     Rob.Dangit();
                 }
-                Tick = 0;
+                StartDraw = 0;
                 Hood.SetAnim(0f);
             }
         }
 
-        private void SpawnArrow(Int32 power = 1)
+        private void SpawnArrow(Single power)
         {
             if (ArrowScene is null)
             {
@@ -98,10 +105,33 @@ namespace ld51.game
 
             var arrow = ArrowScene.Instance<Arrow>();
             var trans = Hood.SpawnPosition.GlobalTransform;
-            GetTree().Root.AddChild(arrow);
+            GetParent().AddChild(arrow);
             arrow.GlobalTransform = trans;
-            arrow.Velocity = trans.x * 2000f / MaxTick * power;
+            arrow.Velocity = trans.x * 2000f * power;
             SFX.Play();
+        }
+
+        public void Kill()
+        {
+            Dead = true;
+            if (GibScene is null)
+            {
+                GD.PrintErr("Gibs scene is not specified");
+                return;
+            }
+
+            var gibs = GibScene.Instance() as Node2D;
+            GetParent().AddChild(gibs);
+            gibs.GlobalTransform = GlobalTransform;
+
+            var trans = Hood.GlobalTransform;
+            RemoveChild(Hood);
+            GetParent().AddChild(Hood);
+            Hood.Mode = RigidBody2D.ModeEnum.Rigid;
+            Hood.GlobalTransform = trans;
+            Hood.CollisionLayer = 2;
+            Hood.CollisionMask |= 4;
+            QueueFree();
         }
     }
 }
