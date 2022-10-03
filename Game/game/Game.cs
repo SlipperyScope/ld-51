@@ -6,16 +6,19 @@ public delegate void TimerCallback();
 
 public class TimedAction {
     public ulong time;
+    public readonly float duration;
     public float timeRemaining {
         get {
-            GD.Print("checkin dat time");
-            return (float)(time - Time.GetTicksMsec()) / 1000f;
+            if (Time.GetTicksMsec() > time) return 0;
+            float remainder = time - Time.GetTicksMsec();
+            return remainder / 1000f;
         }
     }
     public TimerCallback cb;
 
     public TimedAction(ulong time, TimerCallback cb) {
-        this.time = time;
+        this.time = time + Time.GetTicksMsec();
+        this.duration = time;
         this.cb = cb;
     }
 }
@@ -24,12 +27,18 @@ public class Game : Node2D
 {
     [Export]
     public PackedScene[] Levels;
+    [Export]
+    public PackedScene FlashMessage;
 
     private List<PackedScene> lvls;
     private List<TimedAction> timers = new List<TimedAction>();
 
-    private ulong LEVEL_LENGTH = 3000;
+    private ulong LEVEL_LENGTH = 10000;
+    private float PENALTY = 5f;
     private TimedAction currentTimer;
+	public string SummaryScene = "res://game/Summary.tscn";
+    private Node currentLevel;
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -38,16 +47,22 @@ public class Game : Node2D
         Global.game = this;
 
         ConstructLevel();
+        Global.paused = true;
         GetNode<Button>("StartModal/StartGame").Connect("pressed", this, nameof(StartGame));
     }
 
     public void ConstructLevel() {
+        if (currentLevel != null) {
+            currentLevel.QueueFree();
+        }
+
         PackedScene lvl = lvls[0];
         lvls.RemoveAt(0);
         Global.level++;
 
-        var scene = lvl.Instance();
-        GetNode<Node2D>("LevelContainer").AddChild(scene);
+        currentLevel = lvl.Instance();
+        GetNode<Node2D>("LevelContainer").AddChild(currentLevel);
+        Global.paused = false;
     }
 
     public void StartGame() {
@@ -55,29 +70,58 @@ public class Game : Node2D
         GetNode<CanvasLayer>("StartModal").Visible = false;
 
         // Update flashing numbers
-        Delay(0, () => GD.Print("Three!"));
-        Delay(1000, () => GD.Print("Two!"));
-        Delay(2000, () => GD.Print("One!"));
+        Delay(0, () => Flash("Three!"));
+        Delay(1000, () => Flash("Two!"));
+        Delay(2000, () => Flash("One!"));
         Delay(3000, () => {
+            Flash("Do Tell!");
+            Global.paused = false;
             currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
         });
     }
 
-    public void NextLevel() {
-        CancelTimer(currentTimer);
-        if (lvls.Count != 0) {
-            ConstructLevel();
-            currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
+    public void Flash(string message) {
+        var msg = FlashMessage.Instance() as FlashingText;
+        msg.flashingText = message;
+
+        var size = GetViewport().GetVisibleRect().Size;
+        msg.MarginLeft = size.x / 2;
+        msg.MarginTop = size.y / 2;
+
+        GetNode<Node2D>("MessageContainer").AddChild(msg);
+    }
+
+    public void NextLevel(bool success = false) {
+        if (Global.paused) return;
+
+        Global.paused = true;
+        Global.score += (LEVEL_LENGTH / 1000) - currentTimer.timeRemaining;
+
+        if (!success) {
+            Global.score += PENALTY;
         }
+
+        CancelTimer(currentTimer);
+
+        Flash(success ? "Nice!" : $"Bummer (+{PENALTY}s)");
+        Delay(300, () => {
+            if (lvls.Count != 0) {
+                ConstructLevel();
+                currentTimer = Delay(LEVEL_LENGTH, () => NextLevel());
+            } else {
+                GetTree().ChangeScene(SummaryScene);
+            }
+        });
     }
 
     public TimedAction Delay(ulong ms, TimerCallback cb) {
-        var timer = new TimedAction(ms + Time.GetTicksMsec(), cb);
+        var timer = new TimedAction(ms, cb);
         timers.Add(timer);
         return timer;
     }
 
     public void CancelTimer(TimedAction timer) {
+        currentTimer = null;
         timers.Remove(timer);
     }
 
@@ -102,6 +146,8 @@ public class Game : Node2D
 
         if (currentTimer != null) {
             Global.timeRemaining = currentTimer.timeRemaining;
+        } else {
+            Global.timeRemaining = 0;
         }
     }
 }
