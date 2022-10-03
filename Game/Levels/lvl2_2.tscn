@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://game/BG.tscn" type="PackedScene" id=1]
+[ext_resource path="res://game/Hayfruit.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/Ground2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/RobNHood.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/Apple.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/Bouncer.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Art/Backgrounds/DaySky.png" type="Texture" id=7]
+[ext_resource path="res://game/Log.tscn" type="PackedScene" id=8]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="BG" parent="." instance=ExtResource( 1 )]
+texture = ExtResource( 7 )
+
+[node name="Ground2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1, 5 )
+
+[node name="RobNHood" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1392, 825 )
+MaxBowDistance = 100.0
+
+[node name="Apple" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1392, 691 )
+
+[node name="Hayfruit8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 358, 788 )
+
+[node name="Hayfruit9" parent="." instance=ExtResource( 2 )]
+position = Vector2( 435, 646 )
+
+[node name="Hayfruit10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 527, 795 )
+
+[node name="Log7" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1248, 878 )
+
+[node name="Log9" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1247, 680 )
+
+[node name="Log10" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1250, 779 )
+
+[node name="Log11" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1263, 583 )
+
+[node name="Bouncer" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1865, 888 )
+rotation = 0.102974
+
+[node name="Bouncer2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1882, 241 )
+rotation = -1.82387
