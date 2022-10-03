@@ -83,7 +83,7 @@ namespace ld51.game
             {
                 StartDraw = Time.GetTicksMsec();
             }
-            else if (e.IsActionReleased("Shoot"))
+            else if (e.IsActionReleased("Shoot") && StartDraw > 0)
             {
                 SpawnArrow(Mathf.Min(1f, delta / (DrawTime * 1000f)));
 
