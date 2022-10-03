@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://game/Game.cs" type="Script" id=1]
 [ext_resource path="res://Assets/BerryRotunda.tres" type="DynamicFontData" id=2]
@@ -9,16 +9,18 @@
 [ext_resource path="res://game/FlashingText.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Levels/lvl4.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Levels/lvl5.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Levels/lvl7.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Levels/lvl9.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Levels/lvl6.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Assets/Music/song2.mp3" type="AudioStream" id=12]
+[ext_resource path="res://Levels/lvl7.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Levels/lvl8.tscn" type="PackedScene" id=14]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
 
 [node name="rootDOTplay" type="Node2D"]
 script = ExtResource( 1 )
-Levels = [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 10 ) ]
+Levels = [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 11 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 10 ) ]
 FlashMessage = ExtResource( 7 )
 
 [node name="LevelContainer" type="Node2D" parent="."]
