@@ -104,7 +104,7 @@ namespace ld51.game
                 return;
             }
 
-            if (Global.paused is true) return;
+            if (Global.paused is true && Input.IsKeyPressed((Int32)KeyList.Q) is false) return;
 
             var arrow = ArrowScene.Instance<Arrow>();
             var trans = Hood.SpawnPosition.GlobalTransform;

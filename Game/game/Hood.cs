@@ -21,7 +21,6 @@ namespace ld51.game
 
         public void SetAnim(Single time)
         {
-            GD.Print(time);
             Anim.Play("Pull");
             Anim.Seek(time, true);
             Anim.Stop();
