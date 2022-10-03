@@ -91,7 +91,7 @@ namespace ld51.game
                 dir = Vector2.Right.Rotated(min);
             }
 
-            Hood.GlobalPosition = center + dir * Mathf.Max(40f, Mathf.Min(center.DistanceTo(mouse), MaxBowDistance));
+            Hood.GlobalPosition = center + dir * Mathf.Max(60f, Mathf.Min(center.DistanceTo(mouse), MaxBowDistance));
             Hood.LookAt(Hood.GlobalPosition + dir);
 
 

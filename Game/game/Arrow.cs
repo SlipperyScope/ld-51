@@ -49,9 +49,9 @@ namespace ld51.game
 
                 case Prop prop:
                     prop.AddDecal(GetNode<Sprite>("Sprite"));
-                    if (prop.EnableOnHit is true)
+                    if (prop.EnableOnHit is true && Input.IsKeyPressed((Int32)KeyList.Q) is false)
                         prop.Enable();
-                    if (prop.Enabled)
+                    if (prop.Enabled && Input.IsKeyPressed((Int32)KeyList.Q) is false)
                         prop.ApplyImpulse(collision.Position - prop.GlobalPosition, Velocity);
                     if (prop is IGoal goal)
                     {
