@@ -33,10 +33,12 @@ public class Game : Node2D
     private List<PackedScene> lvls;
     private List<TimedAction> timers = new List<TimedAction>();
 
-    private ulong LEVEL_LENGTH = 3000;
+    private ulong LEVEL_LENGTH = 10000;
     private float PENALTY = 5f;
     private TimedAction currentTimer;
 	public string SummaryScene = "res://game/Summary.tscn";
+    private Node currentLevel;
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -50,12 +52,16 @@ public class Game : Node2D
     }
 
     public void ConstructLevel() {
+        if (currentLevel != null) {
+            currentLevel.QueueFree();
+        }
+
         PackedScene lvl = lvls[0];
         lvls.RemoveAt(0);
         Global.level++;
 
-        var scene = lvl.Instance();
-        GetNode<Node2D>("LevelContainer").AddChild(scene);
+        currentLevel = lvl.Instance();
+        GetNode<Node2D>("LevelContainer").AddChild(currentLevel);
         Global.paused = false;
     }
 
