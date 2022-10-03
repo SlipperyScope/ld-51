@@ -19,6 +19,7 @@ EnableOnHit = true
 position = Vector2( -35, -79 )
 collision_mask = 28
 gravity_scale = 0.0
+Bleeds = false
 
 [node name="GibLeg2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 27, 109 )

@@ -153,7 +153,7 @@ namespace ld51.game
 
         private void OnHeadHit(object source, GibHitEventArgs e)
         {
-            if (e.IsActive is true)
+            if (e.IsActive is true && Input.IsKeyPressed((Int32)KeyList.Q) is false)
             {
                 Kill();
             }
