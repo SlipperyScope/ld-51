@@ -72,8 +72,6 @@ namespace ld51.game
             }
         }
 
-
-
         public override void _Process(Single delta)
         {
             var center = Body.GlobalPosition;
@@ -93,8 +91,6 @@ namespace ld51.game
 
             Hood.GlobalPosition = center + dir * Mathf.Max(60f, Mathf.Min(center.DistanceTo(mouse), MaxBowDistance));
             Hood.LookAt(Hood.GlobalPosition + dir);
-
-
 
             if (StartDraw != 0)
             {

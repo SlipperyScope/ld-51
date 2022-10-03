@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://game/Triggerator9000.cs" type="Script" id=1]
 [ext_resource path="res://Assets/Art/Backgrounds/Grass.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://game/Log.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/HayrTrigger.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Assets/Music/song1.mp3" type="AudioStream" id=11]
+[ext_resource path="res://game/Trap.tscn" type="PackedScene" id=12]
 
 [node name="Andrew" type="Node2D"]
 
@@ -32,7 +33,7 @@ texture = ExtResource( 2 )
 position = Vector2( 1709, 535 )
 rotation = 3.14159
 scale = Vector2( 1, -1 )
-Triggerables = [ NodePath("../TriggerableHayfruit/Triggerator9000") ]
+Triggerables = [ NodePath("../TriggerableHayfruit/Triggerator9000"), NodePath("../Trap") ]
 
 [node name="Ground2" type="StaticBody2D" parent="."]
 collision_layer = 17
@@ -112,6 +113,9 @@ z_index = 1
 position = Vector2( -23, 453 )
 rotation = -5.01552
 z_index = 1
+
+[node name="Trap" parent="." instance=ExtResource( 12 )]
+position = Vector2( 724, 165 )
 
 [node name="Apple" parent="." instance=ExtResource( 6 )]
 position = Vector2( 193, 287 )

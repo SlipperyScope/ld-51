@@ -47,16 +47,37 @@ namespace ld51.game
                     bouncer.TriggerAudio();
                     break;
 
+                case Apple apple:
+                    apple.AddDecal(GetNode<Sprite>("Sprite"));
+                    if (apple.EnableOnHit is true && Input.IsKeyPressed((Int32)KeyList.Q) is false)
+                        apple.Enable();
+                    if (apple.Enabled && Input.IsKeyPressed((Int32)KeyList.Q) is false)
+                        apple.ApplyImpulse(collision.Position - apple.GlobalPosition, Velocity);
+                    apple.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity });
+                    QueueFree();
+                    break;
+
+                case Gib gib:
+                    gib.AddDecal(GetNode<Sprite>("Sprite"));
+                    if (gib.EnableOnHit is true && Input.IsKeyPressed((Int32)KeyList.Q) is false)
+                        gib.Enable();
+                    if (gib.Enabled && Input.IsKeyPressed((Int32)KeyList.Q) is false)
+                        gib.ApplyImpulse(collision.Position - gib.GlobalPosition, Velocity);
+                    gib.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity });
+                    QueueFree();
+                    break;
+
                 case Prop prop:
                     prop.AddDecal(GetNode<Sprite>("Sprite"));
-                    if (prop.EnableOnHit is true && Input.IsKeyPressed((Int32)KeyList.Q) is false)
+                    if (prop.EnableOnHit is true)
                         prop.Enable();
-                    if (prop.Enabled && Input.IsKeyPressed((Int32)KeyList.Q) is false)
-                        prop.ApplyImpulse(collision.Position - prop.GlobalPosition, Velocity);
-                    if (prop is IGoal goal)
+                    if (prop.Enabled)
                     {
-                        goal.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity});
+                        prop.ApplyImpulse(collision.Position - prop.GlobalPosition, Velocity);
+                        GD.Print($"{prop}{prop.Name}");
                     }
+                    if (prop is IGoal goal)
+                        goal.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity});
                     QueueFree();
                     break;
 
