@@ -72,4 +72,4 @@ position = Vector2( 1596, 868 )
 
 [node name="Bouncer" parent="." instance=ExtResource( 6 )]
 position = Vector2( 563, 786 )
-rotation = -0.296706
+rotation = -0.404916
