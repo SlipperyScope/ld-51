@@ -40,6 +40,7 @@ Target = NodePath("..")
 [node name="Hayfruit15" parent="." instance=ExtResource( 2 )]
 position = Vector2( 687, 274 )
 StartEnabled = false
+EnableOnHit = true
 
 [node name="Node" type="Node" parent="Hayfruit15"]
 script = ExtResource( 9 )

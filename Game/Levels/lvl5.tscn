@@ -25,9 +25,6 @@ position = Vector2( 1654, 864 )
 [node name="Hayfruit9" parent="." instance=ExtResource( 2 )]
 position = Vector2( 957, 428 )
 
-[node name="Hayfruit10" parent="." instance=ExtResource( 2 )]
-position = Vector2( 888, 296 )
-
 [node name="Log2" parent="." instance=ExtResource( 8 )]
 position = Vector2( 930, 534 )
 
