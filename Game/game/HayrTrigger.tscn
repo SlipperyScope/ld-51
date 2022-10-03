@@ -7,7 +7,7 @@
 extents = Vector2( 81, 132 )
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 78.0064
+radius = 93.0215
 
 [node name="HayrTrigger" type="RigidBody2D"]
 collision_layer = 16
@@ -27,5 +27,5 @@ collision_layer = 16
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Trigger"]
-position = Vector2( 2, -6 )
+position = Vector2( -7, -7 )
 shape = SubResource( 2 )
