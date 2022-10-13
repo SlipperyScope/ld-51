@@ -17,6 +17,8 @@ namespace ld51.game
         private Boolean Enabled = true;
         private Single SpawnTime;
 
+        public Boolean IgnoreWillie = false;
+
         public override void _Ready()
         {
             SpawnTime = Time.GetTicksMsec();
@@ -30,7 +32,6 @@ namespace ld51.game
             Velocity += Gravity * delta;
             LookAt(GlobalPosition + Velocity);
         }
-
         private void Move(Vector2 amount)
         {
             if (amount.LengthSquared() < 1f) return;

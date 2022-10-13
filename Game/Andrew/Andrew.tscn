@@ -128,8 +128,7 @@ MaxBowDistance = 100.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
-autoplay = true
 
 [node name="Willie" parent="." instance=ExtResource( 13 )]
-position = Vector2( 839, 562 )
-rotation = 0.00184774
+position = Vector2( 1004, 597 )
+rotation = 6.36995
