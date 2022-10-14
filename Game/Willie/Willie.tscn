@@ -13,10 +13,10 @@ height = 180.0
 [sub_resource type="CircleShape2D" id=5]
 
 [node name="Willie" type="Area2D"]
-collision_layer = 256
-collision_mask = 512
+collision_layer = 0
+collision_mask = 1024
 script = ExtResource( 4 )
-DrawTime = 0.5
+DrawTime = 0.25
 Strength = 1000.0
 ArrowScene = ExtResource( 5 )
 MaxAngle = 45.0
@@ -32,12 +32,16 @@ __meta__ = {
 
 [node name="Head" parent="." instance=ExtResource( 1 )]
 position = Vector2( -1, -113 )
+collision_layer = 256
+collision_mask = 256
 mass = 2.0
 DetachOnHit = true
 DetachJoints = [ NodePath("../BodyPin1"), NodePath("../BodyPin2"), NodePath("../Body/HeadPin") ]
 
 [node name="Body" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1, 47 )
+collision_layer = 256
+collision_mask = 256
 mass = 5.0
 
 [node name="HeadPin" type="PinJoint2D" parent="Body"]

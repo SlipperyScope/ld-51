@@ -52,7 +52,6 @@ public class Willie : Area2D
     /// </summary>
     private Single MaxRad;
 
-
     /// <summary>
     /// Min angle from x-> in degrees
     /// </summary>
@@ -73,6 +72,13 @@ public class Willie : Area2D
     /// </summary>
     private Bow Bow;
 
+    /// <summary>
+    /// Time bow draw started in ms
+    /// </summary>
+    private UInt64 BowDrawStartTime = 0ul;
+
+    private Boolean DrawingBow = false;
+
     #region Node
     public override void _EnterTree()
     {
@@ -84,12 +90,28 @@ public class Willie : Area2D
 
     public override void _Ready()
     {
+        // Bow will not be ready if it is lower in the child list
+        CallDeferred(nameof(GetBow));
+    }
+
+    /// <summary>
+    /// Gets bow from path
+    /// </summary>
+    private void GetBow()
+    {
         Bow = GetNode<Bow>(_Bow);
+        NockArrow();
     }
 
     public override void _Process(Single delta)
     {
-        
+        if (DrawingBow is true)
+        {
+            if (Bow.DrawPosition < 1f)
+            {
+                Bow.DrawPosition = Mathf.Clamp((Time.GetTicksMsec() - BowDrawStartTime) / (DrawTime * 1000f), 0f, 1f);
+            }
+        }
     }
 
     public override void _Input(InputEvent e)
@@ -99,9 +121,34 @@ public class Willie : Area2D
             case InputEventMouseMotion motion:
                 UpdateBow(motion.GlobalPosition);
                 break;
+
+            case InputEvent when e.IsActionPressed("Shoot"):
+                BowDrawStartTime = Time.GetTicksMsec();
+                DrawingBow = true;
+                break;
+
+            case InputEvent when e.IsActionReleased("Shoot"):
+                DrawingBow = false;
+                Bow.FireArrow();
+                NockArrow();
+                break;
+
+            default:
+                break;
         }
     }
     #endregion
+
+    /// <summary>
+    /// Create and nock arrow
+    /// </summary>
+    private void NockArrow()
+    {
+        var arrow = ArrowScene.Instance<Arrow>();
+        arrow.Instigator = this;
+        arrow.Held = true;
+        Bow.NockArrow(arrow);
+    }
 
     /// <summary>
     /// Updates the bow position and rotation
@@ -109,6 +156,8 @@ public class Willie : Area2D
     /// <param name="mousePosition">Global position of the mouse</param>
     private void UpdateBow(Vector2 mousePosition)
     {
+        if (Bow is null) return;
+
         var position = GlobalPosition;
         var transform = GlobalTransform;
         transform.Rotation = Mathf.Clamp(Vector2.Right.AngleTo(position.DirectionTo(mousePosition)), MinRad, MaxRad);
@@ -124,6 +173,7 @@ public class Willie : Area2D
     {
         if (body is Arrow arrow)
         {
+            GD.Print(body);
             arrow.Activate();
         }
     }

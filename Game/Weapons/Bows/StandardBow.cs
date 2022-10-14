@@ -9,5 +9,9 @@ namespace ld51.Weapons.Bows
 {
     public class StandardBow : Bow
     {
+        public override void _Ready()
+        {
+            base._Ready();
+        }
     }
 }

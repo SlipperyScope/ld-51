@@ -6,8 +6,11 @@
 [node name="WillieTest" type="Node2D"]
 
 [node name="Willie" parent="." instance=ExtResource( 2 )]
-position = Vector2( 927, 514 )
+position = Vector2( 370, 706 )
+MaxAngle = 90.0
+MinAngle = -90.0
 _Bow = NodePath("Bow")
 
 [node name="Bow" parent="Willie" instance=ExtResource( 1 )]
 position = Vector2( 91, -3 )
+ArrowContainerPath = NodePath("../..")

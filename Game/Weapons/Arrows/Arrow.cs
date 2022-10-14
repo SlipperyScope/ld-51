@@ -13,12 +13,30 @@ namespace ld51.Weapons
     public abstract class Arrow : KinematicBody2D
     {
         /// <summary>
-        /// Entity responsible for the arrow
+        /// Path to butt position node
+        /// </summary>
+        protected NodePath ButtPositionPath = new("Butt");
+
+        /// <summary>
+        /// Butt position node
+        /// </summary>
+        protected Position2D ButtOffsetNode;
+
+        /// <summary>
+        /// Offset from arrow origin of butt
+        /// </summary>
+        public Vector2 ButtOffset => ButtOffsetNode.Position;
+
+        /// <summary>
+        /// Path to instigator
         /// </summary>
         [Export]
-        private NodePath InstagatorPath = null;
+        private NodePath InstigatorPath;
 
-        public Node Instagator { get; private set; } = null;
+        /// <summary>
+        /// Entity responsible for damage
+        /// </summary>
+        public Node Instigator { get; set; } = null;
 
         /// <summary>
         /// Whether the arrow should be active when it becomes ready
@@ -36,9 +54,43 @@ namespace ld51.Weapons
         /// </summary>
         public Boolean Active { get; private set; }
 
+        /// <summary>
+        /// True if the arrow is held (no gravity)
+        /// </summary>
+        [Export]
+        public Boolean Held { get; set; } = true;
+
+        private Vector2 GravityVector;
+        private Single GravityStrength;
+
+        public Arrow()
+        {
+            Deactivate();
+        }
+
         public override void _Ready()
         {
-            Instagator = GetNode(InstagatorPath);
+            GravityStrength = (Single)Physics2DServer.AreaGetParam(GetWorld2d().Space, Physics2DServer.AreaParameter.Gravity);
+            GravityVector = (Vector2)Physics2DServer.AreaGetParam(GetWorld2d().Space, Physics2DServer.AreaParameter.GravityVector);
+
+            if (InstigatorPath is not null)
+            {
+                Instigator = GetNode(InstigatorPath); 
+            }
+
+            ButtOffsetNode = GetNode<Position2D>(ButtPositionPath);
+        }
+
+        public override void _PhysicsProcess(Single delta)
+        {
+            Position += Velocity * delta;
+            
+            if (Held is false)
+            {
+                Velocity += GravityVector * GravityStrength * delta;
+            }
+
+            LookAt(GlobalPosition + Velocity);
         }
 
         /// <summary>
@@ -50,6 +102,7 @@ namespace ld51.Weapons
             {
                 Active = true;
                 CollisionLayer |= Core.Physics.Layers[Physics.Layer.ActiveArrow];
+                CollisionMask |= Core.Physics.Layers[Physics.Layer.Willie];
             }
         }
 
@@ -62,6 +115,7 @@ namespace ld51.Weapons
             {
                 Active = false;
                 CollisionLayer &= ~Core.Physics.Layers[Physics.Layer.ActiveArrow];
+                CollisionMask = 0u;
             }
         }
     }

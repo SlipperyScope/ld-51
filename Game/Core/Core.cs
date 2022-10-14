@@ -35,17 +35,21 @@ namespace ld51
                     "Willie" => Layer.Willie,
                     "ActiveArrow" => Layer.ActiveArrow,
                     "Arrow" => Layer.Arrow,
-                    _ when Int32.TryParse(name as String, out _) is false => throw new ApplicationException($"Physics layer {name}  not bound to enum"),
-                    _ => Layer.None,
+                    "Default" => Layer.None,
+                    "Player" => Layer.None,
+                    "Apple" => Layer.None,
+                    "Wall" => Layer.None,
+                    "" => Layer.None,
+                    _ => throw new ApplicationException($"Physics layer [{name}]  not bound to enum"),
                 };
 
                 if (layer is not Layer.None)
                 {
                     if (Layers.ContainsKey(layer))
                     {
-                        throw new ApplicationException($"Physics layer {name} (layer_{i}) is not unique");
+                        //throw new ApplicationException($"Physics layer {name} (layer_{i}) is not unique");
                     }
-
+                    else
                     Layers.Add(layer, 2u ^ (i - 1u));
                 }
             }
