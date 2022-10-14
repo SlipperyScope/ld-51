@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Weapons/Bow.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Willie/Willie.tscn" type="PackedScene" id=2]
+
+[node name="WillieTest" type="Node2D"]
+
+[node name="Willie" parent="." instance=ExtResource( 2 )]
+position = Vector2( 927, 514 )
+_Bow = NodePath("Bow")
+
+[node name="Bow" parent="Willie" instance=ExtResource( 1 )]
+position = Vector2( 91, -3 )

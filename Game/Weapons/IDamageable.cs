@@ -12,6 +12,10 @@ namespace ld51.Weapons
     /// </summary>
     public interface IDamageable
     {
+        /// <summary>
+        /// Damage object
+        /// </summary>
+        /// <param name="info">Damage info</param>
         public void Damage(DamageInfo info);
     }
 }

@@ -12,6 +12,14 @@ namespace ld51.Weapons
     /// </summary>
     public record DamageInfo
     {
+        /// <summary>
+        /// Position damage occurred in global coordinates
+        /// </summary>
+        public Vector2 DamagePosition;
 
+        /// <summary>
+        /// Damage impulse (velocity * mass)
+        /// </summary>
+        public Vector2 Impulse;
     }
 }
