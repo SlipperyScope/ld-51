@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Weapons/Bow.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Willie/Willie.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Art/Backgrounds/Grass.png" type="Texture" id=3]
+[ext_resource path="res://Entities/Paintable.cs" type="Script" id=4]
 
 [node name="WillieTest" type="Node2D"]
 
@@ -21,6 +22,7 @@ ArrowContainerPath = NodePath("../..")
 [node name="Ground" type="StaticBody2D" parent="."]
 collision_layer = 16
 collision_mask = 1792
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true

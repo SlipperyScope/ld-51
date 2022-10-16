@@ -78,12 +78,17 @@ public class Willie : Area2D
     /// </summary>
     private Boolean DrawingBow = false;
 
+    /// <summary>
+    /// True if willie is alive
+    /// </summary>
+    public Boolean Alive = true;
+
     #region Node
     public override void _EnterTree()
     {
         if (_Bow is null || ArrowScene is null) throw new ArgumentNullException($"{nameof(_Bow)}{(_Bow is null && ArrowScene is null ? " and " : "")}{nameof(ArrowScene)} {(_Bow is null && ArrowScene is null ? "are" : "is")} not set");
 
-        //Connect("body_entered", this, nameof(OnBodyEntered));
+        Connect("body_entered", this, nameof(OnBodyEntered));
         Connect("body_exited", this, nameof(OnBodyExited));
     }
 
@@ -142,6 +147,7 @@ public class Willie : Area2D
             if (child is BodyPart bodyPart)
             {
                 bodyPart.Detach();
+                Alive = false;
             }
         }
     }
@@ -185,9 +191,21 @@ public class Willie : Area2D
     /// Physics body exited Willie's range
     /// </summary>
     /// <param name="body">Physics body</param>
+    private void OnBodyEntered(PhysicsBody2D body)
+    {
+        if (Alive is false && body is Arrow arrow)
+        {
+            arrow.Activate();
+        }
+    }
+    
+    /// <summary>
+         /// Physics body exited Willie's range
+         /// </summary>
+         /// <param name="body">Physics body</param>
     private void OnBodyExited(PhysicsBody2D body)
     {
-        if (body is Arrow arrow)
+        if (Alive is true && body is Arrow arrow)
         {
             arrow.Activate();
         }

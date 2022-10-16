@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ld51.Core;
 using ld51.Utils;
+using ld51.Entities;
 
 namespace ld51.Weapons
 {
@@ -14,12 +15,6 @@ namespace ld51.Weapons
     /// </summary>
     public abstract class Arrow : KinematicBody2D
     {
-        /// <summary>
-        /// If true, arrow will place a decal unless other behavior is specified
-        /// </summary>
-        [Export]
-        private Boolean DecalOnDefault = true;
-
         /// <summary>
         /// Path to butt position node
         /// </summary>
@@ -154,6 +149,13 @@ namespace ld51.Weapons
 
             if (removeAfterCollide is true)
             {
+                if (collision.Collider is IPaintable paintable)
+                {
+                    var sprite = GetNode<Sprite>("Sprite");
+                    var transform = sprite.GlobalTransform;
+                    RemoveChild(sprite);
+                    paintable.PaintDecal(sprite, transform);
+                }
                 QueueFree();
             }
         }

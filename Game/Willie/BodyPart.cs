@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Godot;
 using ld51.Utils;
+using ld51.Entities;
 
 namespace ld51.Willie
 {
-    public class BodyPart : RigidBody2D, IDamageable
+    public class BodyPart : RigidBody2D, IDamageable, IPaintable
     {
         /// <summary>
         /// Nofities when damage is taken
@@ -28,6 +29,7 @@ namespace ld51.Willie
         [Export]
         private List<NodePath> DetachJoints = new();
 
+        #region IDamageable
         public void Damage(DamageInfo info)
         {
             if (DetachOnHit is true)
@@ -37,7 +39,8 @@ namespace ld51.Willie
 
             CallDeferred("apply_impulse", info.DamagePosition - GlobalPosition, info.Impulse);
             DamageTaken?.Invoke(this, new(info));
-        }
+        } 
+        #endregion
 
         /// <summary>
         /// Detach joints
@@ -53,5 +56,20 @@ namespace ld51.Willie
                 }
             }
         }
+
+        #region IPaintable
+        public void PaintDecal(Sprite decal, Transform2D transform)
+        {
+            if (decal.GetParent() is not null)
+            {
+                decal.Warn($"Decal still parented to {decal.GetParent().Name}");
+            }
+            else
+            {
+                AddChild(decal);
+                decal.GlobalTransform = transform;
+            }
+        }
+        #endregion
     }
 }
