@@ -17,6 +17,8 @@ namespace ld51.game
         private Boolean Enabled = true;
         private Single SpawnTime;
 
+        public Boolean IgnoreWillie = false;
+
         public override void _Ready()
         {
             SpawnTime = Time.GetTicksMsec();
@@ -30,7 +32,6 @@ namespace ld51.game
             Velocity += Gravity * delta;
             LookAt(GlobalPosition + Velocity);
         }
-
         private void Move(Vector2 amount)
         {
             if (amount.LengthSquared() < 1f) return;
@@ -38,37 +39,42 @@ namespace ld51.game
 
             var collision = MoveAndCollide(amount, false);
             if (collision is null) return;
-            
+
+            var sprite = GetNode<Sprite>("Sprite");
+            var transform = sprite.GlobalTransform;
+            var disable = true;
+            var free = true;
+
             switch (collision.Collider)
             {
                 case Bouncer bouncer:
                     Velocity = Velocity.Bounce(collision.Normal);
                     Move(collision.Remainder);
                     bouncer.TriggerAudio();
+                    disable = false;
+                    free = false;
                     break;
 
                 case Apple apple:
-                    apple.AddDecal(GetNode<Sprite>("Sprite"));
+                    apple.AddDecal(sprite);
                     if (apple.EnableOnHit is true && Input.IsKeyPressed((Int32)KeyList.Q) is false)
                         apple.Enable();
                     if (apple.Enabled && Input.IsKeyPressed((Int32)KeyList.Q) is false)
                         apple.ApplyImpulse(collision.Position - apple.GlobalPosition, Velocity);
                     apple.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity });
-                    QueueFree();
                     break;
 
                 case Gib gib:
-                    gib.AddDecal(GetNode<Sprite>("Sprite"));
+                    gib.AddDecal(sprite);
                     if (gib.EnableOnHit is true && Input.IsKeyPressed((Int32)KeyList.Q) is false)
                         gib.Enable();
                     if (gib.Enabled && Input.IsKeyPressed((Int32)KeyList.Q) is false)
                         gib.ApplyImpulse(collision.Position - gib.GlobalPosition, Velocity);
                     gib.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity });
-                    QueueFree();
                     break;
 
                 case Prop prop:
-                    prop.AddDecal(GetNode<Sprite>("Sprite"));
+                    prop.AddDecal(sprite);
                     if (prop.EnableOnHit is true)
                         prop.Enable();
                     if (prop.Enabled)
@@ -78,18 +84,31 @@ namespace ld51.game
                     }
                     if (prop is IGoal goal)
                         goal.Touch(new() { Location = collision.Position, Direction = -collision.Normal, Velocity = Velocity});
-                    QueueFree();
+                    break;
+
+                case RigidBody2D rigid:
+                    Enabled = false;
+                    RemoveChild(sprite);
+                    rigid.AddChild(sprite);
+                    rigid.ApplyImpulse(collision.Position - rigid.GlobalPosition, Velocity);
+                    sprite.GlobalTransform = transform;
                     break;
 
                 default:
-                    Enabled = false;
-                    var sprite2 = GetNode<Sprite>("Sprite");
-                    var trans2 = sprite2.GlobalTransform;
-                    RemoveChild(sprite2);
-                    GetParent<Node>().AddChild(sprite2);
-                    sprite2.GlobalTransform = trans2;
-                    QueueFree();
+                    RemoveChild(sprite);
+                    GetParent<Node>().AddChild(sprite);
+                    sprite.GlobalTransform = transform;
                     break;
+            }
+
+            if (disable is true)
+            {
+                Enabled = false;
+            }
+
+            if (free is true)
+            {
+                QueueFree();
             }
         }
     }

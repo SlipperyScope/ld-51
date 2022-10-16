@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Art/Player/Hat.png" type="Texture" id=1]
+[ext_resource path="res://Willie/BodyPart.cs" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+height = 51.0079
+
+[node name="Hat" type="Node2D"]
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2( -68, -8 )
+node_a = NodePath("../Hat")
+node_b = NodePath("../Feather")
+disable_collision = false
+softness = 1.0
+
+[node name="Feather" type="RigidBody2D" parent="."]
+position = Vector2( -103, -13 )
+collision_layer = 256
+collision_mask = 768
+mass = 0.2
+
+[node name="Sprite" type="Sprite" parent="Feather"]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 24, 77.3593, 46 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Feather"]
+position = Vector2( 1, -2 )
+rotation = -1.38172
+shape = SubResource( 1 )
+
+[node name="Hat" type="RigidBody2D" parent="."]
+collision_layer = 256
+collision_mask = 768
+script = ExtResource( 2 )
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="Hat"]
+position = Vector2( -123, -19 )
+rotation = 1.81056
+node_a = NodePath("..")
+node_b = NodePath("../../Feather")
+disable_collision = false
+length = 5.0
+rest_length = 1.0
+
+[node name="Sprite" type="Sprite" parent="Hat"]
+position = Vector2( 38, 0 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 78, 4, 209, 113.638 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hat"]
+polygon = PoolVector2Array( -6, 44, -21, 53, -50, 50, -50, 43, -41, 33, -61, -27, -64, -38, -64, -46, -59, -53, -51, -55, -40, -54, 117, -32, 134, -32, 139, -29, 140, -9, 136, -3, 106, 3, 92, -14, 65, -17, 7, 6, -5, 23 )
