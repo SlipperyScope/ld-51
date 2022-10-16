@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ld51.Core;
+using ld51.Utils;
 
 namespace ld51.Weapons
 {
@@ -12,6 +14,12 @@ namespace ld51.Weapons
     /// </summary>
     public abstract class Arrow : KinematicBody2D
     {
+        /// <summary>
+        /// If true, arrow will place a decal unless other behavior is specified
+        /// </summary>
+        [Export]
+        private Boolean DecalOnDefault = true;
+
         /// <summary>
         /// Path to butt position node
         /// </summary>
@@ -47,6 +55,7 @@ namespace ld51.Weapons
         /// <summary>
         /// Arrow velocity
         /// </summary>
+        [Export]
         public Vector2 Velocity { get; set; } = Vector2.Zero;
 
         /// <summary>
@@ -60,9 +69,31 @@ namespace ld51.Weapons
         [Export]
         public Boolean Held { get; set; } = true;
 
+        /// <summary>
+        /// Gravity direction
+        /// </summary>
         private Vector2 GravityVector;
+
+        /// <summary>
+        /// Gravity acceleration in u/s^2
+        /// </summary>
         private Single GravityStrength;
 
+        /// <summary>
+        /// Maximum number of moves after collision
+        /// </summary>
+        const UInt32 MaxMoveAttempts = 5u;
+
+        /// <summary>
+        /// Current move attempt
+        /// </summary>
+        private UInt32 MoveAttemp = 0u;
+
+        private UInt32 ActiveArrowLayer = Statics.Physics.Layers[Physics.Layer.ActiveArrow];
+
+        /// <summary>
+        /// Creates a new Arrow
+        /// </summary>
         public Arrow()
         {
             Deactivate();
@@ -83,14 +114,48 @@ namespace ld51.Weapons
 
         public override void _PhysicsProcess(Single delta)
         {
-            Position += Velocity * delta;
-            
+            //Position += Velocity * delta;
+            MoveAttemp = 0u;
+            Move(Velocity * delta);
+
             if (Held is false)
             {
                 Velocity += GravityVector * GravityStrength * delta;
             }
 
             LookAt(GlobalPosition + Velocity);
+        }
+
+        /// <summary>
+        /// Processes a movement collision
+        /// </summary>
+        /// <param name="collision"></param>
+        private void Move(Vector2 distance)
+        {
+            if (distance.LengthSquared() < 1f) return;
+            if (MoveAttemp++ >= MaxMoveAttempts) return;
+
+            var collision = MoveAndCollide(distance, false);
+            if (collision is null) return;
+
+            var removeAfterCollide = true;
+
+            switch (collision.Collider)
+            {
+                case IDamageable damageable:
+                    damageable.Damage(
+                        new()
+                        {
+                            DamagePosition = collision.Position,
+                            Impulse = Velocity
+                        });
+                    break;
+            }
+
+            if (removeAfterCollide is true)
+            {
+                QueueFree();
+            }
         }
 
         /// <summary>
@@ -101,8 +166,7 @@ namespace ld51.Weapons
             if (Active is false)
             {
                 Active = true;
-                CollisionLayer |= Core.Physics.Layers[Physics.Layer.ActiveArrow];
-                CollisionMask |= Core.Physics.Layers[Physics.Layer.Willie];
+                CollisionLayer |= ActiveArrowLayer;
             }
         }
 
@@ -114,8 +178,7 @@ namespace ld51.Weapons
             if (Active is true)
             {
                 Active = false;
-                CollisionLayer &= ~Core.Physics.Layers[Physics.Layer.ActiveArrow];
-                CollisionMask = 0u;
+                CollisionLayer &= ~ActiveArrowLayer;
             }
         }
     }

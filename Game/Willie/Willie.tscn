@@ -17,7 +17,6 @@ collision_layer = 0
 collision_mask = 1024
 script = ExtResource( 4 )
 DrawTime = 0.25
-Strength = 1000.0
 ArrowScene = ExtResource( 5 )
 MaxAngle = 45.0
 MinAngle = -45.0
@@ -33,16 +32,16 @@ __meta__ = {
 [node name="Head" parent="." instance=ExtResource( 1 )]
 position = Vector2( -1, -113 )
 collision_layer = 256
-collision_mask = 256
+collision_mask = 768
 mass = 2.0
 DetachOnHit = true
-DetachJoints = [ NodePath("../BodyPin1"), NodePath("../BodyPin2"), NodePath("../Body/HeadPin") ]
 
 [node name="Body" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1, 47 )
 collision_layer = 256
-collision_mask = 256
+collision_mask = 768
 mass = 5.0
+DetachJoints = [ NodePath("../BodyPin1"), NodePath("../BodyPin2") ]
 
 [node name="HeadPin" type="PinJoint2D" parent="Body"]
 position = Vector2( -1, -159 )
@@ -70,14 +69,14 @@ DetachOnHit = true
 DetachJoints = [ NodePath("../../HatPin") ]
 
 [node name="BodyPin1" type="PinJoint2D" parent="."]
-node_a = NodePath("../Anchor")
-node_b = NodePath("../Body")
+node_a = NodePath("../Body")
+node_b = NodePath("../Anchor")
 softness = 1.0
 
 [node name="BodyPin2" type="PinJoint2D" parent="."]
 position = Vector2( 0, 109 )
-node_a = NodePath("../Anchor")
-node_b = NodePath("../Body")
+node_a = NodePath("../Body")
+node_b = NodePath("../Anchor")
 softness = 1.0
 
 [node name="NeckPin" type="PinJoint2D" parent="."]

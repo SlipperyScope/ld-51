@@ -1,5 +1,7 @@
 using Godot;
+using ld51.Utils;
 using ld51.Weapons;
+using ld51.Willie;
 using System;
 
 /// <summary>
@@ -12,12 +14,6 @@ public class Willie : Area2D
     /// </summary>
     [Export]
     public Single DrawTime { get; private set; }
-
-    /// <summary>
-    /// Strength of the launch impulse
-    /// </summary>
-    [Export]
-    public Single Strength { get; private set; }
 
     /// <summary>
     /// Arrow to fire
@@ -77,6 +73,9 @@ public class Willie : Area2D
     /// </summary>
     private UInt64 BowDrawStartTime = 0ul;
 
+    /// <summary>
+    /// Bow is being drawn
+    /// </summary>
     private Boolean DrawingBow = false;
 
     #region Node
@@ -92,15 +91,7 @@ public class Willie : Area2D
     {
         // Bow will not be ready if it is lower in the child list
         CallDeferred(nameof(GetBow));
-    }
-
-    /// <summary>
-    /// Gets bow from path
-    /// </summary>
-    private void GetBow()
-    {
-        Bow = GetNode<Bow>(_Bow);
-        NockArrow();
+        GetNode<BodyPart>("Head").DamageTaken += OnHeadDamage;
     }
 
     public override void _Process(Single delta)
@@ -140,6 +131,31 @@ public class Willie : Area2D
     #endregion
 
     /// <summary>
+    /// Handles damage event from the head
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnHeadDamage(System.Object sender, DamageTakenEventArgs e)
+    {
+        foreach(var child in GetChildren())
+        {
+            if (child is BodyPart bodyPart)
+            {
+                bodyPart.Detach();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets bow from path
+    /// </summary>
+    private void GetBow()
+    {
+        Bow = GetNode<Bow>(_Bow);
+        NockArrow();
+    }
+
+    /// <summary>
     /// Create and nock arrow
     /// </summary>
     private void NockArrow()
@@ -173,7 +189,6 @@ public class Willie : Area2D
     {
         if (body is Arrow arrow)
         {
-            GD.Print(body);
             arrow.Activate();
         }
     }

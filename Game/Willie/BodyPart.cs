@@ -5,11 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Godot;
+using ld51.Utils;
 
 namespace ld51.Willie
 {
     public class BodyPart : RigidBody2D, IDamageable
     {
+        /// <summary>
+        /// Nofities when damage is taken
+        /// </summary>
+        public event DamageTakenHandler DamageTaken;
+
         /// <summary>
         /// Detach joints on hit
         /// </summary>
@@ -24,8 +30,13 @@ namespace ld51.Willie
 
         public void Damage(DamageInfo info)
         {
-            Detach();
-            CallDeferred(nameof(ApplyImpulse), info.DamagePosition - GlobalPosition, info.Impulse);
+            if (DetachOnHit is true)
+            {
+                Detach();
+            }
+
+            CallDeferred("apply_impulse", info.DamagePosition - GlobalPosition, info.Impulse);
+            DamageTaken?.Invoke(this, new(info));
         }
 
         /// <summary>
@@ -33,14 +44,12 @@ namespace ld51.Willie
         /// </summary>
         public void Detach()
         {
-            if (DetachOnHit is true)
+            if (DetachJoints is not null)
             {
                 foreach (var path in DetachJoints)
                 {
-                    var joint = GetNodeOrNull<Joint2D>(path) ?? throw new ArgumentNullException($"{path} is not a Joint2D");
-                    joint.NodeA = null;
-                    joint.NodeB = null;
-                    joint.QueueFree();
+                    var joint = GetNodeOrNull<Joint2D>(path);
+                    joint?.QueueFree();
                 }
             }
         }

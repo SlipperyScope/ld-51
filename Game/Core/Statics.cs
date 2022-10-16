@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ld51
+namespace ld51.Core
 {
 
-    public static class Core
+    public static class Statics
     {
         public static Physics Physics { get; private set; } = new();
     }
@@ -27,7 +27,7 @@ namespace ld51
 
         public Physics()
         {
-            for (UInt32 i = 1; i <= 32; i++)
+            for (Int32 i = 1; i <= 32; i++)
             {
                 var name = ProjectSettings.GetSetting($"layer_names/2d_physics/layer_{i}");
                 var layer = name switch
@@ -50,7 +50,7 @@ namespace ld51
                         //throw new ApplicationException($"Physics layer {name} (layer_{i}) is not unique");
                     }
                     else
-                    Layers.Add(layer, 2u ^ (i - 1u));
+                    Layers.Add(layer, 1u << (i - 1));
                 }
             }
         }
